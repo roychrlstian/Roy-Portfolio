@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+  }
+}
+
+body {
+  background-color: var(--background);
+  background-image: url('/noise.png');
+  background-repeat: repeat;
+  background-position: 0 0;
+  background-attachment: local;
+  color: var(--foreground);
+  /* Use Inter if available via next/font (sets --font-inter) then fall back to system fonts */
+  font-family: var(--font-inter, 'Inter'), system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Shine link styles */
+.shine-link {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+.shine-link .label-normal,
+.shine-link .label-hover {
+  display: inline-block;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+.shine-link .label-hover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(6px);
+}
+.shine-link:hover .label-normal {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.shine-link:hover .label-hover {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Shimmer effect */
+.shine-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.65) 50%, rgba(255,255,255,0) 100%);
+  transform: skewX(-20deg);
+  pointer-events: none;
+  opacity: 0.95;
+}
+.shine-link:hover::before {
+  animation: shine 0.9s ease forwards;
+}
+@keyframes shine {
+  from { left: -50%; }
+  to { left: 150%; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fadeUp 600ms ease both;
+}
