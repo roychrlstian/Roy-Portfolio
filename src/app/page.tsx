@@ -9,7 +9,7 @@ export default function Home() {
         <span className="label-normal">NEXT</span>
         <span className="label-hover">&gt;&gt;&gt;&gt;</span>
       </Link>
-      <SmokeyCursor />
+      <SmokeyCursor/>
     </div>
   );
 }

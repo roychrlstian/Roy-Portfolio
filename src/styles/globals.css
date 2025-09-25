@@ -87,3 +87,28 @@ body {
 .animate-fade-up {
   animation: fadeUp 600ms ease both;
 }
+
+/* Marquee global styles used by src/components/ui/marquee.tsx */
+.marquee__track {
+  display: inline-flex;
+  gap: 2rem;
+  animation-name: marqueeScroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.marquee__group { display: inline-flex; }
+
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track { animation: none !important; }
+}
+
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track {
+  animation-play-state: paused;
+}

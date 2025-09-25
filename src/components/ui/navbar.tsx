@@ -13,10 +13,10 @@ export default function Navbar() {
       </div>
 
       <div className="hidden md:flex items-center gap-6">
+        <NavLink href="/about">About</NavLink>
         <NavLink href="/project">Projects</NavLink>
         <NavLink href="/design">Design</NavLink>
         <NavLink href="/contact">Contact</NavLink>
-        <NavLink href="/about">About</NavLink>
       </div>
 
       <button
