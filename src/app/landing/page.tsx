@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../../components/ui/navbar'
 import Marquee from '@/components/ui/marquee'
+import Footer from '@/components/ui/footer'
 
 const Landing = () => {
   return (
@@ -17,6 +18,7 @@ const Landing = () => {
           
         </section>
       </main>
+      <Footer/>
     </div>
   )
 }

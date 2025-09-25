@@ -30,7 +30,7 @@ export default function Navbar() {
       </button>
 
       {open && (
-        <div className="absolute top-full left-0 right-0 bg-[#2038A9] md:hidden py-4">
+        <div className="absolute top-full left-0 right-0 bg-[#0f1724] md:hidden py-4">
           <div className="flex flex-col items-center gap-3">
             <NavLink href="/project">Projects</NavLink>
             <NavLink href="/design">Design</NavLink>
