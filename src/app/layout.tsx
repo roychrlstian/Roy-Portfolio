@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
-// @ts-expect-error: side-effect global stylesheet import (declared in global.d.ts)
 import "../styles/globals.css";
 
 const geistSans = Geist({
