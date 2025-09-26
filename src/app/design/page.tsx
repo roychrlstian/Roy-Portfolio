@@ -3,23 +3,27 @@ import Navbar from '@/components/ui/navbar'
 import Footer from '@/components/ui/footer'
 import ThreeDImageRing from '@/components/lightswind/3d-image-ring'
 import Marquee from '@/components/ui/marquee'
+import Reveal from '@/components/ui/reveal'
 
 const DesignPage = () => {
   return (
       <div className="min-h-screen bg-[#0f1724] text-white">
         <Navbar />
         <main className="max-w-6xl mx-auto p-8">
-          <section className="mt-12 animate-fade-up">
-            <h1 className="text-7xl font-bold mb-6">MY DESIGNS</h1>
-            <p className="text-xl">
-              Welcome to My Designs a collection of creative works that showcase my approach to design, blending aesthetics with functionality. From modern UI layouts to experimental concepts, each piece reflects my focus on clean visuals, user experience, and attention to detail.
-            </p>
-          </section>
+          <Reveal variant="fade-up">
+            <section className="mt-12">
+              <h1 className="text-7xl font-bold mb-6">MY DESIGNS</h1>
+              <p className="text-xl">
+                Welcome to My Designs a collection of creative works that showcase my approach to design, blending aesthetics with functionality. From modern UI layouts to experimental concepts, each piece reflects my focus on clean visuals, user experience, and attention to detail.
+              </p>
+            </section>
+          </Reveal>
 
           {/*Triad starts*/}
-          <section className="mt-12">
+          <Reveal variant="fade-up" className="mt-12 block">
+          <section className="mt-0">
             <div className="flex items-center justify-between mt-6 border-t border-white/6 pt-6">
-              <h2 className="text-2xl font-bold">TRIAD COMMUNITY</h2>
+              <h2 className="text-4xl font-bold">TRIAD COMMUNITY</h2>
               <div className="text-sm text-white/70">CO-FOUNDER<br/>GRAPHICS DESIGNER</div>
             </div>
             {/*carousel starts here*/}
@@ -30,25 +34,26 @@ const DesignPage = () => {
                   <div className='py-10'>
                     <ThreeDImageRing
                     images={[
-                      '/announcement/1.jpg',
-                      '/announcement/2.jpg',
-                      '/announcement/3.jpg',
-                      '/announcement/4.jpg',
-                      '/announcement/5.jpg',
-                      '/announcement/6.jpg',
-                      '/announcement/7.jpg',
-                      '/announcement/1.jpg',
-                      '/announcement/2.jpg',
-                      '/announcement/3.jpg',
-                      '/announcement/4.jpg',
-                      '/announcement/5.jpg',
-                      '/announcement/6.jpg',
-                      '/announcement/7.jpg',
+                      '/triad/announcement/1.jpg',
+                      '/triad/announcement/2.jpg',
+                      '/triad/announcement/3.jpg',
+                      '/triad/announcement/4.jpg',
+                      '/triad/announcement/5.jpg',
+                      '/triad/announcement/6.jpg',
+                      '/triad/announcement/7.jpg',
+                      '/triad/announcement/1.jpg',
+                      '/triad/announcement/2.jpg',
+                      '/triad/announcement/3.jpg',
+                      '/triad/announcement/4.jpg',
+                      '/triad/announcement/5.jpg',
+                      '/triad/announcement/6.jpg',
+                      '/triad/announcement/7.jpg',
                     ]}
                     containerClassName="h-[420px] overflow-visible"
                     width={420}
                     height={440}
                     imageDistance={1000}
+                    inertiaPower={0.01}
                     initialRotation={0}
                     imageFit="contain"
                     />
@@ -59,23 +64,24 @@ const DesignPage = () => {
                   <div className='py-15'>
                   <ThreeDImageRing
                     images={[
-                      '/event/1.jpg',
-                      '/event/2.jpg',
-                      '/event/3.jpg',
-                      '/event/4.jpg',
-                      '/event/5.png',
-                      '/event/6.jpg',
-                      '/event/1.jpg',
-                      '/event/2.jpg',
-                      '/event/3.jpg',
-                      '/event/4.jpg',
-                      '/event/5.png',
-                      '/event/6.jpg',
+                      '/triad/event/1.jpg',
+                      '/triad/event/2.jpg',
+                      '/triad/event/3.jpg',
+                      '/triad/event/4.jpg',
+                      '/triad/event/5.png',
+                      '/triad/event/6.jpg',
+                      '/triad/event/1.jpg',
+                      '/triad/event/2.jpg',
+                      '/triad/event/3.jpg',
+                      '/triad/event/4.jpg',
+                      '/triad/event/5.png',
+                      '/triad/event/6.jpg',
                     ]}
                     containerClassName="h-[420px] overflow-visible"
                     width={450}
                     height={550}
                     imageDistance={1000}
+                    inertiaPower={0.01}
                     initialRotation={0}
                     imageFit="contain"
                   />
@@ -85,26 +91,32 @@ const DesignPage = () => {
             </div>
             {/*carousel ends here*/}
           </section>
+          </Reveal>
           {/*Triad ends*/}
-          <Marquee
-            speed={20}
-            className="py-10 mx-[calc(50%-50vw)] w-screen px-8"
-            textClass="text-7xl md:text-6xl font-bold"
-          >
-            <span className="mx-8">Explore My Designs</span>
-            <span className="mx-8">Contact Me for Collaborations</span>
-          </Marquee>
+
+          <Reveal variant="fade-in">
+            <Marquee
+              speed={20}
+              className="py-10 mx-[calc(50%-50vw)] w-screen px-8"
+              textClass="text-7xl md:text-6xl font-bold"
+            >
+              <span className="mx-4">Explore My Designs</span>
+              <span className="mx-4">Contact Me for Collaborations</span>
+            </Marquee>
+          </Reveal>
+
           {/*LCUP starts*/}
-          <section className="mt-12">
+          <Reveal variant="fade-up" className="block">
+          <section className="mt-0">
             <div className="flex items-center justify-between mt-6 border-t border-white/6 pt-6">
-              <h2 className="text-2xl font-bold">LA CONSOLACION UNIVERSITY PHILIPPINES</h2>
+              <h2 className="text-4xl font-bold">LA CONSOLACION UNIVERSITY PHILIPPINES</h2>
               <div className="text-sm text-white/70">CREATIVE MANAGER<br/>GRAPHICS DESIGNER</div>
             </div>
             {/*carousel starts here*/}
             <div className="mt-6 border-y border-white/6 py-6">
               <div className="space-y-10">
                 <div>
-                  <h2 className="text-2xl font-bold mb-4">Announcements</h2>
+                  <h2 className="text-2xl font-bold mb-4">Public Materials</h2>
                   <div className='py-10'>
                     <ThreeDImageRing
                     images={[
@@ -128,6 +140,7 @@ const DesignPage = () => {
                     width={420}
                     height={440}
                     imageDistance={1000}
+                    inertiaPower={0.01}
                     initialRotation={0}
                     imageFit="contain"
                     />
@@ -137,7 +150,97 @@ const DesignPage = () => {
             </div>
             {/*carousel ends here*/}
           </section>
+          </Reveal>
           {/*LCUP ends*/}
+
+          <Reveal variant="fade-in">
+            <Marquee
+              speed={20}
+              className="py-10 mx-[calc(50%-50vw)] w-screen px-8"
+              textClass="text-7xl md:text-6xl font-bold"
+            >
+              <span className="mx-4">Explore My Designs</span>
+              <span className="mx-4">Contact Me for Collaborations</span>
+            </Marquee>
+          </Reveal>
+
+          {/*Freelance starts*/}
+          <Reveal variant="fade-up" className="block">
+          <section className="mt-0">
+            <div className="flex items-center justify-between mt-6 border-t border-white/6 pt-6">
+              <h2 className="text-4xl font-bold">FREELANCE</h2>
+              <div className="text-sm text-white/70">GRAPHICS DESIGNER</div>
+            </div>
+            {/*carousel starts here*/}
+            <div className="mt-6 border-y border-white/6 py-6">
+              <div className="space-y-10">
+                <div>
+                  <h2 className="text-2xl font-bold mb-4">Logo</h2>
+                  <div>
+                    <ThreeDImageRing
+                    images={[
+                      '/freelance/logo/1.png',
+                      '/freelance/logo/2.jpg',
+                      '/freelance/logo/3.jpg',
+                      '/freelance/logo/4.jpg',
+                      '/freelance/logo/5.jpg',
+                      '/freelance/logo/1.png',
+                      '/freelance/logo/2.jpg',
+                      '/freelance/logo/3.jpg',
+                      '/freelance/logo/4.jpg',
+                      '/freelance/logo/5.jpg',
+                      '/freelance/logo/1.png',
+                      '/freelance/logo/2.jpg',
+                      '/freelance/logo/3.jpg',
+                      '/freelance/logo/4.jpg',
+                    ]}
+                    containerClassName="h-[420px] overflow-visible"
+                    width={420}
+                    height={440}
+                    imageDistance={1000}
+                    inertiaPower={0.01}
+                    initialRotation={0}
+                    imageFit="contain"
+                    />
+                  </div>
+                </div>
+
+                <div className='mt-6 border-t border-white/6 pt-6'>
+                  <h2 className="text-2xl font-bold mb-4">Banners</h2>
+                  <div className='py-10'>
+                    <ThreeDImageRing
+                    images={[
+                      '/freelance/banner/1.jpg',
+                      '/freelance/banner/2.jpg',
+                      '/freelance/banner/3.jpg',
+                      '/freelance/banner/4.jpg',
+                      '/freelance/banner/5.jpg',
+                      '/freelance/banner/6.jpg',
+                      '/freelance/banner/7.jpg',
+                      '/freelance/banner/1.png',
+                      '/freelance/banner/2.jpg',
+                      '/freelance/banner/3.jpg',
+                      '/freelance/banner/4.jpg',
+                      '/freelance/banner/5.jpg',
+                      '/freelance/banner/6.jpg',
+                      '/freelance/banner/7.jpg',
+                    ]}
+                    containerClassName="h-[420px] overflow-visible"
+                    width={420}
+                    height={440}
+                    imageDistance={1000}
+                    inertiaPower={0.01}
+                    initialRotation={0}
+                    imageFit="contain"
+                    />
+                  </div>
+                </div>  
+              </div>
+            </div>
+            {/*carousel ends here*/}
+          </section>
+          </Reveal>
+          {/*Freelance ends*/}
         </main>
 
         <Footer />
