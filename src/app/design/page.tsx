@@ -244,6 +244,17 @@ const DesignPage = () => {
           {/*Freelance ends*/}
   </main>
   </div>
+        <Reveal variant="fade-in">
+            <Marquee
+              speed={20}
+              className="py-10 pb-20 mx-[calc(50%-50vw)] w-screen px-8"
+              textClass="text-7xl md:text-6xl font-bold"
+            >
+              <span className="mx-4">Hire me pls</span>
+              <span className="mx-4">Hire me pls</span>
+              <span className="mx-4">Hire me pls</span>
+            </Marquee>
+          </Reveal>
 
         <Footer />
       </div>
