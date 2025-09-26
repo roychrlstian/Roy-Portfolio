@@ -16,6 +16,7 @@ const DesignPage = () => {
             </p>
           </section>
 
+          {/*Triad starts*/}
           <section className="mt-12">
             <div className="flex items-center justify-between mt-6 border-t border-white/6 pt-6">
               <h2 className="text-2xl font-bold">TRIAD COMMUNITY</h2>
@@ -26,9 +27,16 @@ const DesignPage = () => {
               <div className="space-y-10">
                 <div>
                   <h2 className="text-2xl font-bold mb-4">Announcements</h2>
-                  <div className='py-20'>
+                  <div className='py-10'>
                     <ThreeDImageRing
                     images={[
+                      '/announcement/1.jpg',
+                      '/announcement/2.jpg',
+                      '/announcement/3.jpg',
+                      '/announcement/4.jpg',
+                      '/announcement/5.jpg',
+                      '/announcement/6.jpg',
+                      '/announcement/7.jpg',
                       '/announcement/1.jpg',
                       '/announcement/2.jpg',
                       '/announcement/3.jpg',
@@ -40,18 +48,23 @@ const DesignPage = () => {
                     containerClassName="h-[420px] overflow-visible"
                     width={420}
                     height={440}
-                    imageDistance={500}
+                    imageDistance={1000}
                     initialRotation={0}
                     imageFit="contain"
                     />
                   </div>
-                  
                 </div>
                 <div className='mt-6 border-t border-white/6 pt-6'>
                   <h2 className="text-2xl font-bold mb-4">Events</h2>
-                  <div className='py-20'>
+                  <div className='py-15'>
                   <ThreeDImageRing
                     images={[
+                      '/event/1.jpg',
+                      '/event/2.jpg',
+                      '/event/3.jpg',
+                      '/event/4.jpg',
+                      '/event/5.png',
+                      '/event/6.jpg',
                       '/event/1.jpg',
                       '/event/2.jpg',
                       '/event/3.jpg',
@@ -62,7 +75,7 @@ const DesignPage = () => {
                     containerClassName="h-[420px] overflow-visible"
                     width={450}
                     height={550}
-                    imageDistance={400}
+                    imageDistance={1000}
                     initialRotation={0}
                     imageFit="contain"
                   />
@@ -73,14 +86,60 @@ const DesignPage = () => {
             {/*carousel ends here*/}
           </section>
           {/*Triad ends*/}
-          
+          <Marquee
+            speed={20}
+            className="py-10 mx-[calc(50%-50vw)] w-screen px-8"
+            textClass="text-7xl md:text-6xl font-bold"
+          >
+            <span className="mx-8">Explore My Designs</span>
+            <span className="mx-8">Contact Me for Collaborations</span>
+          </Marquee>
+          {/*LCUP starts*/}
+          <section className="mt-12">
+            <div className="flex items-center justify-between mt-6 border-t border-white/6 pt-6">
+              <h2 className="text-2xl font-bold">LA CONSOLACION UNIVERSITY PHILIPPINES</h2>
+              <div className="text-sm text-white/70">CREATIVE MANAGER<br/>GRAPHICS DESIGNER</div>
+            </div>
+            {/*carousel starts here*/}
+            <div className="mt-6 border-y border-white/6 py-6">
+              <div className="space-y-10">
+                <div>
+                  <h2 className="text-2xl font-bold mb-4">Announcements</h2>
+                  <div className='py-10'>
+                    <ThreeDImageRing
+                    images={[
+                      '/lcup/1.jpg',
+                      '/lcup/2.jpg',
+                      '/lcup/3.jpg',
+                      '/lcup/4.jpg',
+                      '/lcup/5.jpg',
+                      '/lcup/6.jpg',
+                      '/lcup/7.jpg',
+                      '/lcup/8.jpg',
+                      '/lcup/9.jpg',
+                      '/lcup/10.jpg',
+                      "/lcup/11.jpg",
+                      "/lcup/12.jpg",
+                      "/lcup/13.jpg",
+                      "/lcup/14.jpg",
+                      "/lcup/15.jpg",
+                    ]}
+                    containerClassName="h-[420px] overflow-visible"
+                    width={420}
+                    height={440}
+                    imageDistance={1000}
+                    initialRotation={0}
+                    imageFit="contain"
+                    />
+                  </div>
+                </div>  
+              </div>
+            </div>
+            {/*carousel ends here*/}
+          </section>
+          {/*LCUP ends*/}
         </main>
-        <Marquee speed={20} className="py-10" textClass="text-7xl md:text-4x1 font-bold">
-          <span className="mx-4">Welcome to My Portfolio</span>
-          <span className="mx-4">Explore My Projects</span>
-          <span className="mx-4">Contact Me for Collaborations</span>
-          <span className="mx-4">Designs and More</span>
-        </Marquee>
+
         <Footer />
       </div>
     )
