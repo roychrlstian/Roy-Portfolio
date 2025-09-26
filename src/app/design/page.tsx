@@ -218,7 +218,7 @@ const DesignPage = () => {
                       '/freelance/banner/5.jpg',
                       '/freelance/banner/6.jpg',
                       '/freelance/banner/7.jpg',
-                      '/freelance/banner/1.png',
+                      '/freelance/banner/1.jpg',
                       '/freelance/banner/2.jpg',
                       '/freelance/banner/3.jpg',
                       '/freelance/banner/4.jpg',
