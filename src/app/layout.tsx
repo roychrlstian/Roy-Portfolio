@@ -35,10 +35,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        {/* spacer handled by page containers if they don't already include top margin; add a safe-area aware padding */}
-        <div className="pt-20 md:pt-24 flex-1 flex flex-col">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );

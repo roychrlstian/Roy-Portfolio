@@ -8,8 +8,9 @@ import Reveal from '@/components/ui/reveal'
 const DesignPage = () => {
   return (
       <div className="min-h-screen bg-[#0f1724] text-white">
-        <Navbar />
-        <main className="max-w-6xl mx-auto p-8">
+  <Navbar />
+  <div className="pt-10">
+  <main className="max-w-6xl mx-auto p-8">
           <Reveal variant="fade-up">
             <section className="mt-12">
               <h1 className="text-7xl font-bold mb-6">MY DESIGNS</h1>
@@ -241,7 +242,8 @@ const DesignPage = () => {
           </section>
           </Reveal>
           {/*Freelance ends*/}
-        </main>
+  </main>
+  </div>
 
         <Footer />
       </div>

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -13,21 +13,17 @@ export default function Navbar() {
     const handleScroll = () => {
       const currentY = window.scrollY || 0;
       if (open) {
-        // keep visible when mobile menu is open
         setHidden(false);
         lastScrollY.current = currentY;
         ticking.current = false;
         return;
       }
-
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
           if (currentY > lastScrollY.current && currentY > 50) {
-            // scrolled down
-            setHidden(true);
+            setHidden(true); // scrolling down
           } else if (currentY < lastScrollY.current) {
-            // scrolled up
-            setHidden(false);
+            setHidden(false); // scrolling up
           }
           lastScrollY.current = currentY;
           ticking.current = false;
@@ -35,16 +31,13 @@ export default function Navbar() {
         ticking.current = true;
       }
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [open]);
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 bg-[#0B1019]/95 backdrop-blur-sm border-b border-white/5 shadow-sm transition-transform duration-300 ${
-        hidden ? '-translate-y-full' : 'translate-y-0'
-      } relative`}
+      className={`fixed top-0 left-0 right-0 z-50 bg-[#0B1019] border-b border-white/5 shadow-sm transition-transform duration-300 will-change-transform ${hidden ? '-translate-y-full' : 'translate-y-0'}`}
     >
       <div className="w-full max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
