@@ -42,34 +42,36 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`relative w-full max-w-6xl mx-auto flex items-center justify-between px-6 py-4 shadow-sm transform transition-transform duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 bg-[#0B1019]/95 backdrop-blur-sm border-b border-white/5 shadow-sm transition-transform duration-300 ${
         hidden ? '-translate-y-full' : 'translate-y-0'
-      }`}
+      } relative`}
     >
-      <div className="flex items-center gap-3">
-        <Image src="/royLogo.svg" alt="Roy Logo" width={40} height={40} priority />
-        <span className="text-white font-bold">Roy</span>
-      </div>
+      <div className="w-full max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+        <div className="flex items-center gap-3">
+          <Image src="/royLogo.svg" alt="Roy Logo" width={40} height={40} priority />
+          <span className="text-white font-bold">Roy</span>
+        </div>
 
-      <div className="hidden md:flex items-center gap-6">
-        <NavLink href="/about">About</NavLink>
-        <NavLink href="/project">Projects</NavLink>
-        <NavLink href="/design">Design</NavLink>
-        <NavLink href="/contact">Contact</NavLink>
-      </div>
+        <div className="hidden md:flex items-center gap-6">
+          <NavLink href="/about">About</NavLink>
+          <NavLink href="/project">Projects</NavLink>
+          <NavLink href="/design">Design</NavLink>
+          <NavLink href="/contact">Contact</NavLink>
+        </div>
 
-      <button
-        className="md:hidden p-2 rounded bg-white/10"
-        onClick={() => setOpen((v) => !v)}
-        aria-label="Toggle menu"
-      >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path d="M4 6h16M4 12h16M4 18h16" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
-      </button>
+        <button
+          className="md:hidden p-2 rounded bg-white/10"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Toggle menu"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M4 6h16M4 12h16M4 18h16" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
 
       {open && (
-        <div className="absolute top-full left-0 right-0 bg-[#0f1724] md:hidden py-4">
+        <div className="absolute top-full left-0 right-0 bg-[#0B1019] md:hidden py-4 border-b border-white/5">
           <div className="flex flex-col items-center gap-3">
             <NavLink href="/project">Projects</NavLink>
             <NavLink href="/design">Design</NavLink>
@@ -78,7 +80,6 @@ export default function Navbar() {
           </div>
         </div>
       )}
-      {/* no background or blur for navbar */}
     </nav>
   );
 }
