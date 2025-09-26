@@ -35,4 +35,7 @@ declare module '*.gif';
 declare module '*.webp';
 declare module '*.avif';
 
+// Explicit module for global stylesheet relative import path used in layout to appease TS/Turbopack.
+declare module '../src/styles/globals.css';
+
 export {};
