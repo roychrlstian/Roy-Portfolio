@@ -7,7 +7,7 @@ export default function Footer() {
     "text-sm uppercase tracking-wider text-white/80 hover:text-white transition-colors duration-200";
 
   return (
-  <footer className="fixed bottom-0 left-0 right-0 w-full bg-[#0B1019] text-white z-50 shadow-[0_-1px_0_rgba(255,255,255,0.03)]">
+  <footer className="w-full bg-[#0B1019] text-white shadow-[0_-1px_0_rgba(255,255,255,0.03)] mt-auto">
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           <div className="flex-1 flex flex-col md:flex-row md:items-start md:justify-between gap-8">
@@ -25,22 +25,22 @@ export default function Footer() {
             <nav aria-label="Footer navigation" className="flex gap-8 md:gap-12">
               <ul className="flex flex-col gap-4">
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <Link href="./project" className={linkClass}>
                     Projects
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <Link href="./design" className={linkClass}>
                     Design
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <Link href="./contact" className={linkClass}>
                     Contact
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <Link href="./about" className={linkClass}>
                     About
                   </Link>
                 </li>
@@ -48,42 +48,43 @@ export default function Footer() {
 
               <ul className="flex flex-col gap-4">
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <a
+                    href="https://www.linkedin.com/in/roy-christian-cruz-19b699310/" className={linkClass} target="_blank" rel="noopener noreferrer">
                     LinkedIn
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <a href="https://github.com/roychrlstian" className={linkClass} target="_blank" rel="noopener noreferrer">
                     Github
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <a href="mailto:roychristian.cruz@email.lcup.edu.ph?subject=Portfolio Inquiry" className={linkClass} target="_blank" rel="noopener noreferrer">
                     Email
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <a href="https://linktr.ee/roychrlstian" className={linkClass} target="_blank" rel="noopener noreferrer">
                     Linktree
-                  </Link>
+                  </a>
                 </li>
               </ul>
 
               <ul className="flex flex-col gap-4">
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <a href="http://facebook.com/roychrlstian" className={linkClass} target="_blank" rel="noopener noreferrer">
                     Facebook
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <a href="http://instagram.com/roychrlstian" className={linkClass} target="_blank" rel="noopener noreferrer">
                     Instagram
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="#" className={linkClass}>
+                  <a href="http://x.com/roychrlstian" className={linkClass} target="_blank" rel="noopener noreferrer">
                     X
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </nav>
