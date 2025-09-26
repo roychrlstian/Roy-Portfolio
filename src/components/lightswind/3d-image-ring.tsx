@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence, useMotionValue, easeOut } from "framer-motion";
 import { cn } from "../lib/utils"; // Assuming you have this utility for class names
 import { animate } from "framer-motion";
@@ -86,12 +86,12 @@ export function ThreeDImageRing({
 
   const angle = useMemo(() => 360 / images.length, [images.length]);
 
-  const getBgPos = (imageIndex: number, currentRot: number, scale: number) => {
+  const getBgPos = useCallback((imageIndex: number, currentRot: number, scale: number) => {
     const scaledImageDistance = imageDistance * scale;
     const effectiveRotation = currentRot - 180 - imageIndex * angle;
     const parallaxOffset = ((effectiveRotation % 360 + 360) % 360) / 360;
     return `${-(parallaxOffset * (scaledImageDistance / 1.5))}px 0px`;
-  };
+  }, [imageDistance, angle]);
 
   useEffect(() => {
     if (imageFit === 'contain') {
@@ -114,7 +114,7 @@ export function ThreeDImageRing({
       currentRotationY.current = latestRotation;
     });
     return () => unsubscribe();
-  }, [rotationY, images.length, imageDistance, currentScale, angle, imageFit]);
+  }, [rotationY, images.length, imageDistance, currentScale, angle, imageFit, getBgPos]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -275,9 +275,9 @@ const handleDragEnd = () => {
                 variants={imageVariants} // Use the simplified variants object
                 custom={index} // Pass the index as a custom prop
                 transition={{
-                  delay: index * staggerDelay, // Use index directly in transition
+                  delay: index * staggerDelay,
                   duration: animationDuration,
-                  ease: easeOut, // Apply ease for entrance animation
+                  ease: ease === 'easeOut' ? easeOut : undefined,
                 }}
                 whileHover={{ opacity: 1, transition: { duration: 0.15 } }}
                 onHoverStart={() => {
