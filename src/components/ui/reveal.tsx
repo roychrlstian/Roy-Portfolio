@@ -6,9 +6,14 @@ type Variant = 'fade-up' | 'fade-in' | 'scale-in';
 interface RevealProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: Variant;
   rootMargin?: string; // e.g. '0px 0px -10% 0px'
+  /** IntersectionObserver threshold(s). Ignored if showAt provided. */
   threshold?: number | number[];
   once?: boolean; // if true, animation won't reset when leaving viewport
   delayMs?: number; // delay before showing after intersecting
+  /** Ratio (0-1) of element visibility required to trigger show (hysteresis). Default 0.15 */
+  showAt?: number;
+  /** If true, hide only when completely out of viewport (intersection ratio === 0). Default true */
+  hideWhenFullyOut?: boolean;
 }
 
 const HIDDEN: Record<Variant, string> = {
@@ -31,6 +36,8 @@ export default function Reveal({
   threshold = 0.15,
   once = false,
   delayMs = 0,
+  showAt,
+  hideWhenFullyOut = true,
   ...rest
 }: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -40,22 +47,34 @@ export default function Reveal({
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+    const showRatio = showAt ?? (Array.isArray(threshold) ? Math.min(...threshold) : threshold);
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            setEverVisible(true);
-          } else if (!once) {
-            setVisible(false);
+          const ratio = entry.intersectionRatio;
+          if (ratio >= showRatio) {
+            if (!visible) {
+              setVisible(true);
+              setEverVisible(true);
+            }
+          } else {
+            // Hide conditions
+            if (!once) {
+              if (hideWhenFullyOut) {
+                if (ratio === 0) setVisible(false);
+              } else if (ratio < showRatio * 0.5) {
+                // fallback: hide when far below show threshold
+                setVisible(false);
+              }
+            }
           }
         });
       },
-      { root: null, rootMargin, threshold }
+      { root: null, rootMargin, threshold: buildThresholdArray(showRatio) }
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [rootMargin, threshold, once]);
+  }, [rootMargin, threshold, once, showAt, hideWhenFullyOut, visible]);
 
   // handle delay when becoming visible
   const [delayedVisible, setDelayedVisible] = useState(false);
@@ -76,4 +95,15 @@ export default function Reveal({
       {children}
     </div>
   );
+}
+
+// Build a more granular threshold list so we can detect fine-grained ratio changes without performance issues
+function buildThresholdArray(showRatio: number) {
+  const steps = 20;
+  const thresholds: number[] = [];
+  for (let i = 0; i <= steps; i++) {
+    thresholds.push(i / steps);
+  }
+  if (!thresholds.includes(showRatio)) thresholds.push(showRatio);
+  return thresholds.sort((a, b) => a - b);
 }
