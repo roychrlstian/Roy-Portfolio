@@ -3,13 +3,13 @@
 
 export const triadImages = {
 	announcements: [
-		'/triad/announcement/1.jpg',
-		'/triad/announcement/2.jpg',
-		'/triad/announcement/3.jpg',
-		'/triad/announcement/4.jpg',
-		'/triad/announcement/5.jpg',
-		'/triad/announcement/6.jpg',
-		'/triad/announcement/7.jpg',
+		'/images/triad/announcement/1.jpg',
+		'/images/triad/announcement/2.jpg',
+		'/images/triad/announcement/3.jpg',
+		'/images/triad/announcement/4.jpg',
+		'/images/triad/announcement/5.jpg',
+		'/images/triad/announcement/6.jpg',
+		'/images/triad/announcement/7.jpg',
 	],
 	events: [
 		'/triad/event/1.jpg',
@@ -72,7 +72,11 @@ export const ringDefaults = {
 };
 
 // Section configs describing how to build CarouselContainer items
-export const sectionConfigs = {
+export const sectionConfigs: {
+	triad: SectionItemConfig[];
+	lcup: SectionItemConfig[];
+	freelance: SectionItemConfig[];
+} = {
 	triad: [
 		{
 			title: 'Announcements',

@@ -34,8 +34,7 @@ const DesignPage = () => {
                 ...(item.wrapperClassName && { wrapperClassName: item.wrapperClassName }),
                 ringProps: {
                   ...ringDefaults,
-                  // triad may include ringOverrides only on specific items
-                  ...(('ringOverrides' in item) ? (item as any).ringOverrides : {}),
+                  ...(item.ringOverrides ?? {}),
                   images: item.images,
                 },
               }))}
