@@ -1,3 +1,4 @@
+"use client";
 import React from 'react'
 import Navbar from '../../components/ui/navbar'
 import Footer from '@/components/ui/footer'
@@ -5,6 +6,7 @@ import Image from 'next/image'
 import Reveal from '@/components/ui/reveal'
 import Marquee from '@/components/ui/marquee'
 import { useRouter } from 'next/navigation'
+import SlideToUnlock from '@/components/ui/slide-to-unlock'
 
 const AboutPage = () => {
   const router = useRouter();
@@ -17,7 +19,7 @@ const AboutPage = () => {
               <Reveal variant="fade-up">
               <section className="relative mt-12 min-h-[70vh] flex items-center justify-center">
                 {/* Tagline (top-left on large screens) */}
-                <div className="absolute top-0 left-0 max-w-sm space-y-2 font-semibold text-lg md:text-xl leading-snug z-30">
+                <div className="absolute top-0 left-27 max-w-sm space-y-2 font-semibold text-lg md:text-xl leading-snug z-30">
                   <p>Web Developer</p>
                   <p>Graphics Designer based</p>
                   <p>in Philippines</p>
@@ -67,30 +69,16 @@ const AboutPage = () => {
                   </div>
                 </div>
                 {/* Description + CTA (bottom-right)*/}
-                <div className="absolute bottom-0 right-0 max-w-sm text-sm md:text-base leading-relaxed space-y-6 z-30">
+                <div className="absolute bottom-[-30px] right-0 max-w-sm text-sm md:text-base leading-relaxed space-y-6 z-30">
                   <p className="text-white/90">
                     Hi, I&apos;m Roy Cruz — a web developer and Graphics Designer passionate about crafting intuitive, responsive, and visually engaging digital experiences that inspire and connect.
                   </p>
-                  <button
-                    onClick={() => router.push('/design')}
-                    type="button"
-                    aria-label="See my works"
-                    className="relative group overflow-hidden inline-flex items-center rounded-full bg-white text-black pl-4 pr-8 py-4 font-medium text-sm md:text-base shadow-lg shadow-black/30 hover:shadow-black/50 transition-colors hover:bg-white/90"
-                  >
-                    {/* Sliding arrow capsule */}
-                    <span className="relative flex items-center">
-                      <span className="flex size-9 items-center justify-center rounded-full bg-black text-white transition-all duration-300 group-hover:translate-x-[110%] group-active:scale-90">
-                        →
-                      </span>
-                      {/* Duplicate arrow trail (appears as original slides out) */}
-                      <span className="pointer-events-none absolute flex size-9 items-center justify-center rounded-full bg-black text-white opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                        →
-                      </span>
-                    </span>
-                    <span className="ml-3 pr-1">See my works</span>
-                    {/* Underline slide effect */}
-                    <span className="absolute bottom-0 left-0 h-px w-full scale-x-0 bg-black/60 origin-left transition-transform duration-300 group-hover:scale-x-100" />
-                  </button>
+                  <SlideToUnlock
+                    onComplete={() => router.push('/design')}
+                    label="See my works"
+                    successLabel="Redirecting…"
+                    className="ml-auto"
+                  />
                 </div>
               </section>
               </Reveal>
