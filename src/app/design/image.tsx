@@ -3,13 +3,16 @@
 
 export const triadImages = {
 	announcements: [
-		'/images/triad/announcement/1.jpg',
-		'/images/triad/announcement/2.jpg',
-		'/images/triad/announcement/3.jpg',
-		'/images/triad/announcement/4.jpg',
-		'/images/triad/announcement/5.jpg',
-		'/images/triad/announcement/6.jpg',
-		'/images/triad/announcement/7.jpg',
+		// NOTE: Static assets must live under /public. So these paths
+		// assume files are located at public/triad/announcement/*.jpg
+		// If you currently have them inside src/app/design/images/** move them to /public/triad/announcement
+		'/triad/announcement/1.jpg',
+		'/triad/announcement/2.jpg',
+		'/triad/announcement/3.jpg',
+		'/triad/announcement/4.jpg',
+		'/triad/announcement/5.jpg',
+		'/triad/announcement/6.jpg',
+		'/triad/announcement/7.jpg',
 	],
 	events: [
 		'/triad/event/1.jpg',
