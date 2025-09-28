@@ -21,25 +21,33 @@ const AboutPage = () => {
                   <p>in Philippines</p>
                 </div>
 
-                {/* Center image behind text */}
+                {/* Layer 1: Filled ROY CRUZ (base) */}
                 <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center">
-                  <div className="relative w-[60vw] max-w-[640px] aspect-[3/4] opacity-95">
+                  <h1 aria-hidden className="text-white font-extrabold leading-none tracking-tight text-center text-[16vw] md:text-[10rem]">
+                    ROY CRUZ
+                  </h1>
+                </div>
+
+                {/* Layer 2: Portrait PNG */}
+                <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center z-10">
+                  <div className="relative w-[62vw] max-w-[760px] aspect-[3/4]">
                     <Image
                       src="/me.png"
-                      alt="Silhouette portrait of Roy Cruz"
+                      alt="Portrait of Roy Cruz"
                       fill
                       priority
-                      className="object-contain object-center drop-shadow-[0_0_40px_rgba(255,255,255,0.05)]"
+                      className="object-contain object-center"
                     />
                   </div>
-                  {/* subtle radial gradient vignette for contrast */}
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,23,36,0)_0%,rgba(15,23,36,0.65)_70%,rgba(15,23,36,0.9)_100%)]" />
                 </div>
 
-                {/* Giant Name */}
-                <h1 className="relative z-20 text-[16vw] md:text-[10rem] leading-none font-extrabold tracking-tight text-white text-center">
-                  <span className="block">ROY <span className="align-top inline-block text-transparent" style={{ WebkitTextStroke: '2px #ffffff' }}>CRUZ</span></span>
-                </h1>
+                {/* Layer 3: Outlined ROY CRUZ (front) */}
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center z-20">
+                  <h1 className="font-extrabold leading-none tracking-tight text-center text-transparent text-[16vw] md:text-[10rem]" style={{ WebkitTextStroke: '2px #ffffff' }}>
+                    ROY CRUZ
+                  </h1>
+                </div>
 
                 {/* Description + CTA (bottom-right) */}
                 <div className="absolute bottom-0 right-0 max-w-sm text-sm md:text-base leading-relaxed space-y-6 z-30">
