@@ -3,14 +3,16 @@ import Navbar from '../../components/ui/navbar'
 import Footer from '@/components/ui/footer'
 import Image from 'next/image'
 import Reveal from '@/components/ui/reveal'
-import Link from 'next/link'
+import Marquee from '@/components/ui/marquee'
+import { useRouter } from 'next/navigation'
 
 const AboutPage = () => {
+  const router = useRouter();
   return (
           <div className="min-h-screen bg-[#0f1724] text-white">
             <Navbar />
             <div className="pt-10">
-            <main className="max-w-6xl mx-auto p-8">
+            <main className="max-w-6xl mx-auto mb-10 p-8">
               {/* Hero / Identity Section */}
               <Reveal variant="fade-up">
               <section className="relative mt-12 min-h-[70vh] flex items-center justify-center">
@@ -69,19 +71,42 @@ const AboutPage = () => {
                   <p className="text-white/90">
                     Hi, I&apos;m Roy Cruz — a web developer and Graphics Designer passionate about crafting intuitive, responsive, and visually engaging digital experiences that inspire and connect.
                   </p>
-                  <Link
-                    href="/design"
-                    className="group inline-flex items-center gap-3 bg-white text-black rounded-full px-7 py-4 font-medium text-sm md:text-base shadow-lg shadow-black/30 hover:shadow-black/50 transition hover:bg-white/90"
+                  <button
+                    onClick={() => router.push('/design')}
+                    type="button"
                     aria-label="See my works"
+                    className="relative group overflow-hidden inline-flex items-center rounded-full bg-white text-black pl-4 pr-8 py-4 font-medium text-sm md:text-base shadow-lg shadow-black/30 hover:shadow-black/50 transition-colors hover:bg-white/90"
                   >
-                    <span className="flex size-9 items-center justify-center rounded-full bg-black text-white group-hover:scale-110 transition-transform">→</span>
-                    <span>See my works</span>
-                  </Link>
+                    {/* Sliding arrow capsule */}
+                    <span className="relative flex items-center">
+                      <span className="flex size-9 items-center justify-center rounded-full bg-black text-white transition-all duration-300 group-hover:translate-x-[110%] group-active:scale-90">
+                        →
+                      </span>
+                      {/* Duplicate arrow trail (appears as original slides out) */}
+                      <span className="pointer-events-none absolute flex size-9 items-center justify-center rounded-full bg-black text-white opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                        →
+                      </span>
+                    </span>
+                    <span className="ml-3 pr-1">See my works</span>
+                    {/* Underline slide effect */}
+                    <span className="absolute bottom-0 left-0 h-px w-full scale-x-0 bg-black/60 origin-left transition-transform duration-300 group-hover:scale-x-100" />
+                  </button>
                 </div>
               </section>
               </Reveal>
+              
             </main>
+            
             </div>
+            <Reveal variant="fade-in">
+              <Marquee
+                speed={20}
+                className="py-6 mx-[calc(50%-50vw)] w-screen px-8 mb-6 bg-[#0B1019]"
+                textClass="text-2xl md:text-4xl font-semibold"
+              >
+                <span className="mx-4">Developer • Designer • Innovator | Always learning, always creating</span>
+              </Marquee>
+            </Reveal>
             <Footer/>
           </div>
         )
