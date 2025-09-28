@@ -21,8 +21,6 @@ export interface ThreeDImageRingProps {
   animationDuration?: number;
   /** Stagger delay between images */
   staggerDelay?: number;
-  /** Hover opacity for non-hovered images */
-  hoverOpacity?: number;
   /** Custom container className */
   containerClassName?: string;
   /** Custom ring className */
@@ -58,7 +56,6 @@ export function ThreeDImageRing({
   initialRotation = 180,
   animationDuration = 1.5,
   staggerDelay = 0.1,
-  hoverOpacity = 0.5,
   containerClassName,
   ringClassName,
   imageClassName,
@@ -279,27 +276,7 @@ const handleDragEnd = () => {
                   duration: animationDuration,
                   ease: ease === 'easeOut' ? easeOut : undefined,
                 }}
-                whileHover={{ opacity: 1, transition: { duration: 0.15 } }}
-                onHoverStart={() => {
-                  // Prevent hover effects while dragging
-                  if (isDragging.current) return;
-                  if (ringRef.current) {
-                    Array.from(ringRef.current.children).forEach((imgEl, i) => {
-                      if (i !== index) {
-                        (imgEl as HTMLElement).style.opacity = `${hoverOpacity}`;
-                      }
-                    });
-                  }
-                }}
-                onHoverEnd={() => {
-                  // Prevent hover effects while dragging
-                  if (isDragging.current) return;
-                  if (ringRef.current) {
-                    Array.from(ringRef.current.children).forEach((imgEl) => {
-                      (imgEl as HTMLElement).style.opacity = `1`;
-                    });
-                  }
-                }}
+                // Hover opacity behavior removed per request
               />
             ))}
           </AnimatePresence>
