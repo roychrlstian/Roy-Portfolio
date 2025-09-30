@@ -37,6 +37,8 @@ export interface SmoothCursorProps {
   onCursorEnter?: () => void;
   onCursorLeave?: () => void;
   disabled?: boolean;
+  /** Automatically disable cursor on touch / coarse pointer devices (mobile/tablet). Default: true */
+  disableOnTouch?: boolean;
 }
 
 const DefaultCursorSVG: FC<{ size?: number; color?: string; className?: string }> = ({
@@ -128,6 +130,7 @@ export function SmoothCursor({
   onCursorEnter,
   onCursorLeave,
   disabled = false,
+  disableOnTouch = true,
 }: SmoothCursorProps) {
   const [isMoving, setIsMoving] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -323,7 +326,19 @@ export function SmoothCursor({
     onCursorLeave
   ]);
 
-  if (disabled || !isVisible) return null;
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    if (!disableOnTouch) return;
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(pointer: coarse)');
+    const apply = () => setIsTouch(mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, [disableOnTouch]);
+
+  if (disabled || !isVisible || (disableOnTouch && isTouch)) return null;
 
   return (
     <>
