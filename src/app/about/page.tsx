@@ -97,8 +97,8 @@ const AboutPage = () => {
                 className="py-6 mx-[calc(50%-50vw)] w-screen px-8 mb-6 bg-[#0B1019]"
                 textClass="text-2xl md:text-4xl font-semibold"
               >
-                <span className="mx-4">Code. Design. Coffee. Marianne. Repeat.</span>
-                <span className="mx-4">Code. Design. Coffee. Marianne. Repeat.</span>
+                <span className="mx-4">Code. Design. Coffee. Repeat.</span>
+                <span className="mx-4">Code. Design. Coffee. Repeat.</span>
               </Marquee>
             </Reveal>
 
@@ -141,17 +141,17 @@ const AboutPage = () => {
                   <div className="flex-1 max-w-3xl">
                     <h3 className="text-xl md:text-2xl font-medium mb-6">Development &amp; Programming</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-10 text-lg md:text-xl">
-                      <ul className="space-y-2 list-disc list-inside">
+                      <ul className="space-y-2 list-disc list-inside font-light">
                         <li>Java</li>
                         <li>JavaScript</li>
                         <li>Python</li>
                       </ul>
-                      <ul className="space-y-2 list-disc list-inside">
+                      <ul className="space-y-2 list-disc list-inside font-light">
                         <li>C#</li>
                         <li>SQL</li>
                         <li>Git</li>
                       </ul>
-                      <ul className="space-y-2 list-disc list-inside">
+                      <ul className="space-y-2 list-disc list-inside font-light">
                         <li>React</li>
                         <li>HTML</li>
                         <li>CSS</li>
@@ -161,7 +161,7 @@ const AboutPage = () => {
                   {/* Design & Creative Tools */}
                   <div className="flex-1 md:max-w-sm">
                     <h3 className="text-xl md:text-2xl font-medium mb-6">Design &amp; Creative Tools</h3>
-                    <ul className="space-y-2 list-disc list-inside text-lg md:text-xl">
+                    <ul className="space-y-2 list-disc list-inside text-lg md:text-xl font-light">
                       <li>Krita</li>
                       <li>Photoshop</li>
                       <li>Canva</li>
@@ -175,11 +175,17 @@ const AboutPage = () => {
                 </h2>
                 <div className="flex flex-col gap-6">
                   {/* Single experience row */}
-                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-4 md:gap-8 text-lg md:text-xl font-medium">
-                    <span className="md:w-[18%]">Freelance</span>
-                    <span className="md:w-[42%] md:pl-4 md:text-left">Graphics Designer</span>
+                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-4 md:gap-8 text-lg md:text-xl font-light">
+                    <span className="md:w-[20%] font-medium">Freelance</span>
+                    <span className="md:w-[30%] md:pl-4 md:text-left">Graphics Designer</span>
                     <span className="md:w-[10%] md:text-center">2024</span>
                     <span className="md:w-[10%] md:text-right">Present</span>
+                  </div>
+                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-4 md:gap-8 text-lg md:text-xl font-light">
+                    <span className="md:w-[20%] font-medium">Journalist</span>
+                    <span className="md:w-[30%] md:pl-4 md:text-left">Graphics Designer</span>
+                    <span className="md:w-[10%] md:text-center">0000</span>
+                    <span className="md:w-[10%] md:text-right">0000</span>
                   </div>
                 </div>
                 <hr className="my-10 border-white/20" />
