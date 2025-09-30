@@ -33,16 +33,16 @@ const ContactPage = () => {
       <Navbar />
       <main className="flex-1 pt-12 pb-20">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
+          <div className="relative md:flex md:items-start md:gap-20 lg:gap-24">
+            {/* Vertical Divider */}
+            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/30 -translate-x-1/2" aria-hidden="true" />
+
             {/* Left Intro */}
-            <div className="space-y-12">
-              <p className="text-3xl md:text-4xl lg:text-[44px] font-semibold leading-tight tracking-tight">
-                Have a project in mind or just want to say hello? Feel free to
-                reach out. I&apos;m always open to discussing new ideas,
-                collaborations, or opportunities to create something impactful
-                together.
+            <div className="md:w-1/2 pr-0 md:pr-10 space-y-12">
+              <p className="text-3xl md:text-4xl lg:text-[44px] font-semibold leading-tight tracking-tight max-w-[560px]">
+                Have a project in mind or just want to say hello? Feel free to reach out. I&apos;m always open to discussing new ideas, collaborations, or opportunities to create something impactful together.
               </p>
-              <div className="pt-4">
+              <div className="pt-2 md:pt-4">
                 <p className="mb-4 text-sm md:text-base text-white/60 font-medium">Follow Me:</p>
                 <div className="flex items-center gap-4 flex-wrap">
                   {SOCIAL_LINKS.map(link => (
@@ -58,13 +58,8 @@ const ContactPage = () => {
               </div>
             </div>
 
-            {/* Divider */}
-            <div className="hidden md:block relative">
-              <div className="absolute left-0 top-0 h-full w-px bg-white/30" />
-            </div>
-
             {/* Right Form */}
-            <div className="md:col-start-2 space-y-10">
+            <div className="mt-14 md:mt-0 md:w-1/2 md:pl-10 space-y-10">
               <form
                 onSubmit={(e) => { e.preventDefault(); /* placeholder */ }}
                 className="space-y-10"
