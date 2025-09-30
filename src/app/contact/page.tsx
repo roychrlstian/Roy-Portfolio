@@ -1,10 +1,11 @@
 "use client";
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import Navbar from '../../components/ui/navbar'
 import Footer from '@/components/ui/footer'
 import Link from 'next/link'
 import Reveal from '@/components/ui/reveal';
 import Marquee from '@/components/ui/marquee';
+import { SmoothCursor } from '@/components/lightswind/smooth-cursor';
 
 // If future client-side validation or submission is needed, convert to client component.
 const SOCIAL_LINKS = [
@@ -30,6 +31,17 @@ const SOCIAL_LINKS = [
 ]
 
 const ContactPage = () => {
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const [justCleared, setJustCleared] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // (Future: send data via fetch here)
+    e.currentTarget.reset();
+    setJustCleared(true);
+    // remove flag after a short delay
+    setTimeout(() => setJustCleared(false), 2000);
+  };
   return (
     <div className="min-h-screen bg-[#0f1724] text-white flex flex-col">
       
@@ -76,7 +88,8 @@ const ContactPage = () => {
             {/* Right Form */}
             <div className="mt-14 md:mt-0 md:w-1/2 md:pl-10 space-y-10">
               <form
-                onSubmit={(e) => { e.preventDefault(); /* placeholder */ }}
+                ref={formRef}
+                onSubmit={handleSubmit}
                 className="space-y-10"
               >
                 <div className="space-y-8">
@@ -139,16 +152,20 @@ const ContactPage = () => {
                 <div>
                   <button
                     type="submit"
-                    className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/40 hover:border-white px-14 h-14 text-sm tracking-wide font-medium transition-colors"
+                    className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/40 hover:border-white px-14 h-14 text-sm tracking-wide font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={justCleared}
                   >
-                    <span>LET&apos;S TALK</span>
-                    <span
-                      className="inline-block transition-transform duration-300 group-hover:translate-x-1"
-                      aria-hidden="true"
-                    >
-                      →
-                    </span>
+                    <span>{justCleared ? 'CLEARED' : 'LET\'S TALK'}</span>
+                    {!justCleared && (
+                      <span
+                        className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                        aria-hidden="true"
+                      >
+                        →
+                      </span>
+                    )}
                   </button>
+                  <div className="sr-only" aria-live="polite">{justCleared ? 'Form cleared' : ''}</div>
                 </div>
               </form>
             </div>
@@ -156,6 +173,7 @@ const ContactPage = () => {
           
         </div>
       </main>
+      <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/> 
       <Footer />
     </div>
   )
