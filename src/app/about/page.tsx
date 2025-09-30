@@ -97,8 +97,8 @@ const AboutPage = () => {
                 className="py-6 mx-[calc(50%-50vw)] w-screen px-8 mb-6 bg-[#0B1019]"
                 textClass="text-2xl md:text-4xl font-semibold"
               >
-                <span className="mx-4">Code. Design. Coffee. Repeat.</span>
-                <span className="mx-4">Code. Design. Coffee. Repeat.</span>
+                <span className="mx-4">Code. Design. Coffee. Marianne. Repeat.</span>
+                <span className="mx-4">Code. Design. Coffee. Marianne. Repeat.</span>
               </Marquee>
             </Reveal>
 
@@ -177,7 +177,7 @@ const AboutPage = () => {
                   {/* Single experience row */}
                   <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-4 md:gap-8 text-lg md:text-xl font-medium">
                     <span className="md:w-[18%]">Freelance</span>
-                    <span className="md:w-[42%] md:pl-4 text-center">Graphics Designer</span>
+                    <span className="md:w-[42%] md:pl-4 md:text-left">Graphics Designer</span>
                     <span className="md:w-[10%] md:text-center">2024</span>
                     <span className="md:w-[10%] md:text-right">Present</span>
                   </div>
