@@ -10,6 +10,7 @@ import SlideToUnlock from '@/components/ui/slide-to-unlock'
 import { ScrollTimeline } from '@/components/lightswind/scroll-timeline'
 import { education } from './education'
 import { SmoothCursor } from '@/components/lightswind/smooth-cursor';
+import { SlidingLogoMarquee } from '@/components/lightswind/sliding-logo-marquee';
 
 const AboutPage = () => {
   const router = useRouter();
@@ -100,9 +101,22 @@ const AboutPage = () => {
               </Marquee>
             </Reveal>
 
+            <Reveal>
+              <div className='flex items-center justify-between mt-6 border-y border-white/6 px-8 max-w-6xl mx-auto'>
+              <ScrollTimeline 
+                events={education}
+                title="My Education"
+                subtitle="Scroll to explore the timeline"
+                progressIndicator={true}
+                cardAlignment="alternating"
+                revealAnimation="fade"
+              />
+              </div>
+            </Reveal>
+            
             {/* Skills & Experience Section */}
             <Reveal variant="fade-up">
-              <section className="max-w-6xl mx-auto px-8 mt-14">
+              <section className="max-w-6xl mx-auto px-8 my-14">
                 {/* 01 Software Skills */}
                 <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-8">
                   <span className="text-white/70 mr-2">01</span> Software skills
@@ -142,31 +156,22 @@ const AboutPage = () => {
                 <hr className="my-10 border-white/20" />
                 {/* 02 Work Experience */}
                 <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-10">
-                  <span className="text-white/70 mr-2">02</span> Work Experience
+                  <span className="text-white/70 mr-2">02</span> Work experience
                 </h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 text-lg md:text-xl font-medium">
-                  <div className="col-span-1">Freelance</div>
-                  <div className="col-span-1">Graphics Designer</div>
-                  <div className="col-span-1">2024</div>
-                  <div className="col-span-1 md:text-right">Present</div>
+                <div className="flex flex-col gap-6">
+                  {/* Single experience row */}
+                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-4 md:gap-8 text-lg md:text-xl font-medium">
+                    <span className="md:w-[18%]">Freelance</span>
+                    <span className="md:w-[42%] md:pl-4 text-center">Graphics Designer</span>
+                    <span className="md:w-[10%] md:text-center">2024</span>
+                    <span className="md:w-[10%] md:text-right">Present</span>
+                  </div>
                 </div>
               </section>
             </Reveal>
 
-            <Reveal>
-              <div className='flex items-center justify-between mt-6 border-y border-white/6 my-6 px-8 max-w-6xl mx-auto'>
-              <ScrollTimeline 
-                events={education}
-                title="My Education"
-                subtitle="Scroll to explore the timeline"
-                progressIndicator={true}
-                cardAlignment="alternating"
-                revealAnimation="fade"
-              />
-              </div>
-            
-            </Reveal>
-            
+
+
             <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/>
             <Footer/>
           </div>
