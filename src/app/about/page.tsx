@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import SlideToUnlock from '@/components/ui/slide-to-unlock'
 import { ScrollTimeline } from '@/components/lightswind/scroll-timeline'
 import { education } from './education'
+import { SmoothCursor } from '@/components/lightswind/smooth-cursor';
 
 const AboutPage = () => {
   const router = useRouter();
@@ -21,7 +22,7 @@ const AboutPage = () => {
               <Reveal variant="fade-up">
               <section className="relative mt-12 min-h-[70vh] flex items-center justify-center px-4 md:px-0">
                 {/* Tagline (top-left on large screens) */}
-                <div className="absolute top-0 left-4 md:left-27 max-w-sm space-y-1 md:space-y-2 font-semibold text-base md:text-xl leading-snug z-30 text-left">
+                <div className="absolute top-0 left-4 md:left-27 max-w-sm space-y-1 md:space-y-2 font-semibold text-base md:text-[25px] leading-snug z-30 text-left">
                   <p>Web Developer</p>
                   <p>Graphics Designer based</p>
                   <p>in Philippines</p>
@@ -71,7 +72,7 @@ const AboutPage = () => {
                   </div>
                 </div>
                 {/* Description + CTA (bottom-right)*/}
-                <div className="absolute bottom-4 md:bottom-[-30px] left-4 md:left-auto md:right-0 max-w-sm text-xs sm:text-sm md:text-base leading-relaxed space-y-4 md:space-y-6 z-30 text-left">
+                <div className="absolute bottom-4 md:bottom-[-63px] left-4 md:left-auto md:right-0 max-w-sm text-xs sm:text-sm md:text-xl leading-relaxed space-y-4 md:space-y-6 z-30 text-left">
                   <p className="text-white/90">
                     Hi, I&apos;m Roy Cruz — a web developer and Graphics Designer passionate about crafting intuitive, responsive, and visually engaging digital experiences that inspire and connect.
                   </p>
@@ -94,21 +95,79 @@ const AboutPage = () => {
                 className="py-6 mx-[calc(50%-50vw)] w-screen px-8 mb-6 bg-[#0B1019]"
                 textClass="text-2xl md:text-4xl font-semibold"
               >
-                <span className="mx-4">Developer • Designer • Innovator | Always learning, always creating</span>
+                <span className="mx-4">Code. Design. Coffee. Repeat.</span>
+                <span className="mx-4">Code. Design. Coffee. Repeat.</span>
               </Marquee>
             </Reveal>
 
+            {/* Skills & Experience Section */}
+            <Reveal variant="fade-up">
+              <section className="max-w-6xl mx-auto px-8 mt-14">
+                {/* 01 Software Skills */}
+                <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-8">
+                  <span className="text-white/70 mr-2">01</span> Software skills
+                </h2>
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-12 md:gap-20">
+                  {/* Development & Programming */}
+                  <div className="flex-1 max-w-3xl">
+                    <h3 className="text-xl md:text-2xl font-medium mb-6">Development &amp; Programming</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-10 text-lg md:text-xl">
+                      <ul className="space-y-2 list-disc list-inside">
+                        <li>Java</li>
+                        <li>JavaScript</li>
+                        <li>Python</li>
+                      </ul>
+                      <ul className="space-y-2 list-disc list-inside">
+                        <li>C#</li>
+                        <li>SQL</li>
+                        <li>Git</li>
+                      </ul>
+                      <ul className="space-y-2 list-disc list-inside">
+                        <li>React</li>
+                        <li>HTML</li>
+                        <li>CSS</li>
+                      </ul>
+                    </div>
+                  </div>
+                  {/* Design & Creative Tools */}
+                  <div className="flex-1 md:max-w-sm">
+                    <h3 className="text-xl md:text-2xl font-medium mb-6">Design &amp; Creative Tools</h3>
+                    <ul className="space-y-2 list-disc list-inside text-lg md:text-xl">
+                      <li>Krita</li>
+                      <li>Photoshop</li>
+                      <li>Canva</li>
+                    </ul>
+                  </div>
+                </div>
+                <hr className="my-10 border-white/20" />
+                {/* 02 Work Experience */}
+                <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-10">
+                  <span className="text-white/70 mr-2">02</span> Work Experience
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 text-lg md:text-xl font-medium">
+                  <div className="col-span-1">Freelance</div>
+                  <div className="col-span-1">Graphics Designer</div>
+                  <div className="col-span-1">2024</div>
+                  <div className="col-span-1 md:text-right">Present</div>
+                </div>
+              </section>
+            </Reveal>
+
             <Reveal>
-            <ScrollTimeline 
-              events={education}
-              title="My Education"
-              subtitle="Scroll to explore the timeline"
-              progressIndicator={true}
-              cardAlignment="alternating"
-              revealAnimation="fade"
-            />
+              <div className='flex items-center justify-between mt-6 border-y border-white/6 my-6 px-8 max-w-6xl mx-auto'>
+              <ScrollTimeline 
+                events={education}
+                title="My Education"
+                subtitle="Scroll to explore the timeline"
+                progressIndicator={true}
+                cardAlignment="alternating"
+                revealAnimation="fade"
+              />
+              </div>
+            
             </Reveal>
             
+            <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/>
             <Footer/>
           </div>
         )
