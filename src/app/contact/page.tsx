@@ -3,6 +3,8 @@ import React from 'react'
 import Navbar from '../../components/ui/navbar'
 import Footer from '@/components/ui/footer'
 import Link from 'next/link'
+import Reveal from '@/components/ui/reveal';
+import Marquee from '@/components/ui/marquee';
 
 // If future client-side validation or submission is needed, convert to client component.
 const SOCIAL_LINKS = [
@@ -30,9 +32,24 @@ const SOCIAL_LINKS = [
 const ContactPage = () => {
   return (
     <div className="min-h-screen bg-[#0f1724] text-white flex flex-col">
+      
       <Navbar />
-      <main className="flex-1 pt-12 pb-20">
+
+      <main className="flex-1 pb-20">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
+
+          <Reveal variant="fade-in">
+            <Marquee
+              speed={20}
+              className="pt-30 pb-20 mx-[calc(50%-50vw)] w-screen px-8 mb-6"
+              textClass="text-3xl md:text-7xl font-bold"
+            >
+              <span className="mx-4">Get In Touch!</span>
+              <span className="mx-4">Get In Touch!</span>
+              <span className="mx-4">Get In Touch!</span>
+            </Marquee>
+          </Reveal>
+
           <div className="relative md:flex md:items-start md:gap-20 lg:gap-24">
             {/* Vertical Divider */}
             <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/30 -translate-x-1/2" aria-hidden="true" />
@@ -96,7 +113,7 @@ const ContactPage = () => {
                       id="topic"
                       name="topic"
                       defaultValue=""
-                      className="w-full appearance-none bg-transparent border-0 border-b border-white/40 focus:border-white outline-none py-3 text-base pr-6 text-white/90 placeholder:text-white/40 transition-colors"
+                      className="w-full appearance-none bg-[#0f1724] focus:bg-[#0f1724] hover:bg-[#0f1724] border-0 border-b border-white/40 focus:border-white outline-none py-3 text-base pr-6 text-white/90 placeholder:text-white/40 transition-colors"
                       required
                     >
                       <option value="" disabled>How can I help you?</option>
@@ -132,14 +149,7 @@ const ContactPage = () => {
               </form>
             </div>
           </div>
-
-          {/* Bottom Contact Info */}
-          <div className="mt-24 flex flex-col md:flex-row items-center md:items-end justify-between gap-10 md:gap-8">
-            <a href="mailto:roychristian.cruz@email.lcup.edu.ph" className="text-2xl md:text-[32px] font-semibold tracking-tight hover:text-white/80 transition-colors text-center md:text-left">
-              roychristian.cruz@email.lcup.edu.ph
-            </a>
-            <p className="text-2xl md:text-[32px] font-semibold tracking-tight text-center md:text-right">(+639) 9999999999</p>
-          </div>
+          
         </div>
       </main>
       <Footer />
