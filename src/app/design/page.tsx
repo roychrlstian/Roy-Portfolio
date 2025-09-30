@@ -5,6 +5,7 @@ import Marquee from '@/components/ui/marquee'
 import Reveal from '@/components/ui/reveal'
 import CarouselContainer from '@/components/ui/carousel-container'
 import { sectionConfigs, ringDefaults } from './image'
+import { SmoothCursor } from '@/components/lightswind/smooth-cursor'
 
 const DesignPage = () => {
   return (
@@ -16,7 +17,7 @@ const DesignPage = () => {
             <section className="mt-12">
               <h1 className="text-7xl font-bold mb-6">MY DESIGNS</h1>
               <p className="text-xl">
-                Welcome to My Designs a collection of creative works that showcase my approach to design, blending aesthetics with functionality. From modern UI layouts to experimental concepts, each piece reflects my focus on clean visuals, user experience, and attention to detail.
+                Welcome to My Design a showcase of visual creations that merge creativity with purpose. From branding and digital illustrations to UI elements, each design is crafted to deliver impact through color, balance, and detail.
               </p>
             </section>
           </Reveal>
@@ -49,8 +50,9 @@ const DesignPage = () => {
               className="py-10 mx-[calc(50%-50vw)] w-screen px-8"
               textClass="text-3xl md:text-6xl font-bold"
             >
-              <span className="mx-4">Explore My Designs</span>
-              <span className="mx-4">Explore My Designs</span>
+              <span className="mx-4">Get In Touch</span>
+              <span className="mx-4">Get In Touch</span>
+              <span className="mx-4">Get In Touch</span>
             </Marquee>
           </Reveal>
 
@@ -108,6 +110,7 @@ const DesignPage = () => {
           {/*Freelance ends*/}
           </main>
         </div>
+        <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/>
         <Footer />
       </div>
     )

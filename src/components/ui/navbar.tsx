@@ -42,7 +42,7 @@ export default function Navbar() {
       <div className="w-full max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
           <Image src="/royLogo.svg" alt="Roy Logo" width={40} height={40} priority />
-          <span className="text-white font-bold">Roy</span>
+          <span className="text-white font-bold">Roy Cruz</span>
         </div>
 
         <div className="hidden md:flex items-center gap-6">

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Reveal from '@/components/ui/reveal';
 import Marquee from '@/components/ui/marquee';
 import { SmoothCursor } from '@/components/lightswind/smooth-cursor';
+import { ArrowRight } from 'lucide-react';
 
 // If future client-side validation or submission is needed, convert to client component.
 const SOCIAL_LINKS = [
@@ -161,7 +162,7 @@ const ContactPage = () => {
                         className="inline-block transition-transform duration-300 group-hover:translate-x-1"
                         aria-hidden="true"
                       >
-                        →
+                        <ArrowRight />
                       </span>
                     )}
                   </button>

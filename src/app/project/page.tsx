@@ -3,6 +3,8 @@ import Navbar from '../../components/ui/navbar'
 import Footer from '@/components/ui/footer'
 import { SmoothCursor } from '@/components/lightswind/smooth-cursor'
 import Reveal from '@/components/ui/reveal'
+import { logos } from '../about/logos'
+import { SlidingLogoMarquee } from '@/components/lightswind/sliding-logo-marquee'
 
 const ProjectPage = () => {
   return (
@@ -47,6 +49,21 @@ const ProjectPage = () => {
                   </div>
                 ))}
               </div>
+
+              <Reveal variant="fade-up">
+                <SlidingLogoMarquee 
+                items={logos} 
+                speed={60}
+                height="180px"
+                enableBlur={true}
+                blurIntensity={2}
+                pauseOnHover={true}
+                showGridBackground={true}
+                showControls={false}
+                className="my-10"
+                />
+              </Reveal>
+
             </main>
             </div>
             <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/>

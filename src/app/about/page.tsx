@@ -10,6 +10,7 @@ import SlideToUnlock from '@/components/ui/slide-to-unlock'
 import { ScrollTimeline } from '@/components/lightswind/scroll-timeline'
 import { education } from './education'
 import { SmoothCursor } from '@/components/lightswind/smooth-cursor';
+import { logos } from './logos';
 import { SlidingLogoMarquee } from '@/components/lightswind/sliding-logo-marquee';
 
 const AboutPage = () => {
@@ -75,7 +76,7 @@ const AboutPage = () => {
                 {/* Description + CTA (bottom-right)*/}
                 <div className="absolute bottom-4 md:bottom-[-63px] left-4 md:left-auto md:right-0 max-w-sm text-xs sm:text-sm md:text-xl leading-relaxed space-y-4 md:space-y-6 z-30 text-left">
                   <p className="text-white/90">
-                    Hi, I&apos;m Roy Cruz — a web developer and Graphics Designer passionate about crafting intuitive, responsive, and visually engaging digital experiences that inspire and connect.
+                    Hi, I&apos;m Roy Cruz a web developer and Graphics Designer passionate about crafting intuitive, responsive, and visually engaging digital experiences that inspire and connect.
                   </p>
                   <SlideToUnlock
                     onComplete={() => router.push('/design')}
@@ -102,7 +103,7 @@ const AboutPage = () => {
             </Reveal>
 
             <Reveal>
-              <div className='flex items-center justify-between mt-6 border-y border-white/6 px-8 max-w-6xl mx-auto'>
+              <div className='flex items-center justify-between mt-6 mb-[-50px] px-8 max-w-6xl mx-auto'>
               <ScrollTimeline 
                 events={education}
                 title="My Education"
@@ -113,10 +114,24 @@ const AboutPage = () => {
               />
               </div>
             </Reveal>
+
+            <Reveal variant="fade-up">
+              <SlidingLogoMarquee 
+              items={logos} 
+              speed={60}
+              height="180px"
+              enableBlur={true}
+              blurIntensity={2}
+              pauseOnHover={true}
+              showGridBackground={true}
+              showControls={false}
+              className="mb-20"
+              />
+            </Reveal>
             
             {/* Skills & Experience Section */}
             <Reveal variant="fade-up">
-              <section className="max-w-6xl mx-auto px-8 my-14">
+              <section className="max-w-6xl mx-auto px-8 mt-14 mb-20">
                 {/* 01 Software Skills */}
                 <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-8">
                   <span className="text-white/70 mr-2">01</span> Software skills
@@ -167,6 +182,7 @@ const AboutPage = () => {
                     <span className="md:w-[10%] md:text-right">Present</span>
                   </div>
                 </div>
+                <hr className="my-10 border-white/20" />
               </section>
             </Reveal>
 
