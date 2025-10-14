@@ -67,6 +67,19 @@ export default function GitHubRepos({ user, limit = 6, showTopics = true, classN
 
   return (
     <div className={className}>
+      {!loading && !error && (
+        <div className="flex justify-end mb-3">
+          <button
+            type="button"
+            onClick={() => setNonce(n => n + 1)}
+            className="group inline-flex items-center gap-1 rounded bg-white/5 px-3 py-1 text-xs font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors border border-white/10"
+            aria-label="Refresh repositories"
+          >
+            <span className="inline-block h-3 w-3 rounded-full border-2 border-current border-t-transparent animate-spin group-active:animate-none" />
+            <span>Refresh</span>
+          </button>
+        </div>
+      )}
       {loading && <div className="text-sm text-neutral-400">Loading repositories…</div>}
       {error && (
         <div className="text-sm text-red-400 flex items-center gap-3">
