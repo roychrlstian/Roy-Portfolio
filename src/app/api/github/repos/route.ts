@@ -6,7 +6,50 @@ import { NextResponse } from 'next/server';
 
 const GITHUB_API = 'https://api.github.com';
 
-function pickRepoFields(repo: any) {
+interface RawRepo {
+  id: number;
+  name: string;
+  full_name: string;
+  html_url: string;
+  description: string | null;
+  language: string | null;
+  topics?: string[];
+  stargazers_count: number;
+  forks_count: number;
+  open_issues_count: number;
+  archived: boolean;
+  disabled: boolean;
+  visibility?: string;
+  created_at: string;
+  updated_at: string;
+  pushed_at: string;
+  homepage: string | null;
+  license?: { spdx_id?: string | null } | null;
+  [key: string]: unknown; // allow extra fields from GitHub we don't map
+}
+
+interface PublicRepo {
+  id: number;
+  name: string;
+  full_name: string;
+  html_url: string;
+  description: string | null;
+  language: string | null;
+  topics?: string[];
+  stargazers_count: number;
+  forks_count: number;
+  open_issues_count: number;
+  archived: boolean;
+  disabled: boolean;
+  visibility?: string;
+  created_at: string;
+  updated_at: string;
+  pushed_at: string;
+  homepage: string | null;
+  license: string | null;
+}
+
+function pickRepoFields(repo: RawRepo): PublicRepo {
   return {
     id: repo.id,
     name: repo.name,
@@ -57,26 +100,29 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: `GitHub responded ${res.status}: ${text.slice(0, 200)}` }, { status: 502 });
     }
 
-    const data = await res.json();
+  const data: unknown = await res.json();
 
     // Optional field filtering
     const fields = (searchParams.get('fields') || '').split(',').map(s => s.trim()).filter(Boolean);
-    let payload = Array.isArray(data) ? data : [];
+  let payload: RawRepo[] = Array.isArray(data) ? (data as RawRepo[]) : [];
 
+    let output: Array<PublicRepo | Record<string, unknown>>;
     if (fields.length > 0) {
-      payload = payload.map((repo: any) => {
+      output = payload.map((repo: RawRepo) => {
         const picked = pickRepoFields(repo);
         const obj: Record<string, unknown> = {};
         for (const f of fields) {
-          if (f in picked) obj[f] = (picked as any)[f];
+          if (Object.prototype.hasOwnProperty.call(picked, f)) {
+            obj[f] = (picked as unknown as Record<string, unknown>)[f];
+          }
         }
         return obj;
       });
     } else {
-      payload = payload.map((repo: any) => pickRepoFields(repo));
+      output = payload.map(pickRepoFields);
     }
 
-    return NextResponse.json(payload, {
+    return NextResponse.json(output, {
       headers: {
         'Cache-Control': 'public, max-age=0, s-maxage=3600',
       },
