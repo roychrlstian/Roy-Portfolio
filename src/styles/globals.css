@@ -76,7 +76,7 @@ body {
 .text-subtle { color: rgba(255,255,255,0.6); }
 .text-faint { color: rgba(255,255,255,0.38); }
 .gradient-text { background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.page-bg { background: #0f1724; background-image: var(--gradient-soft), url('/noise.png'); background-blend-mode: overlay, normal; }
+.page-bg { background: #0f1724; background-image: url('/noise.png'); background-repeat: repeat; }
 .card-surface { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--card-border); box-shadow: var(--shadow-sm); border-radius: 0.9rem; }
 .card-surface:hover { border-color: var(--card-border-hover); box-shadow: var(--shadow-md); }
 .shadow-glow { box-shadow: var(--shadow-glow); }
