@@ -26,10 +26,10 @@ const AboutPage = () => {
               <Reveal variant="fade-up">
               <section className="relative mt-12 min-h-[70vh] flex items-center justify-center px-4 md:px-0">
                 {/* Tagline (top-left on large screens) */}
-                <div className="absolute top-0 left-4 md:left-27 max-w-sm space-y-1 md:space-y-2 font-semibold text-base md:text-[25px] leading-snug z-30 text-left heading-3 gradient-text">
-                  <p>Web Developer</p>
-                  <p>Graphics Designer based</p>
-                  <p>in Philippines</p>
+                <div className="absolute top-0 left-4 md:left-27 max-w-sm space-y-1 md:space-y-2 font-semibold text-base md:text-[25px] leading-snug z-30 text-left heading-3 text-white">
+                  <p className="text-white">Web Developer</p>
+                  <p className="text-white">Graphics Designer based</p>
+                  <p className="text-white">in Philippines</p>
                 </div>
 
                 {/* Accessible heading for SEO & screen readers */}
