@@ -12,7 +12,7 @@ import { education } from './education'
 import { SmoothCursor } from '@/components/lightswind/smooth-cursor';
 import { logos } from './logos';
 import { SlidingLogoMarquee } from '@/components/lightswind/sliding-logo-marquee';
-import GitHubContributions from '@/components/ui/github-contributions';
+import GitHubRepos from '@/components/ui/github-repos';
 
 const AboutPage = () => {
   const router = useRouter();
@@ -190,13 +190,15 @@ const AboutPage = () => {
                   </div>
                 </div>
                 <hr className="my-10 border-white/20" />
-                {/* 03 GitHub Contributions */}
+                {/* 03 Public Repositories */}
                 <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-6">
-                  <span className="text-white/70 mr-2">03</span> GitHub contributions
+                  <span className="text-white/70 mr-2">03</span> Public repositories
                 </h2>
-                <p className="text-white/70 mb-4 text-sm md:text-base">A snapshot of my coding activity. Data from the last 12 months.</p>
-                <GitHubContributions
+                <p className="text-white/70 mb-4 text-sm md:text-base">Some of my public projects on GitHub.</p>
+                <GitHubRepos
                   user="roychrlstian"
+                  limit={6}
+                  sortBy="updated"
                   className="mt-2"
                 />
               </section>
