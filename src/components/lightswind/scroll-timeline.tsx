@@ -21,7 +21,6 @@ export interface ScrollTimelineProps {
   animationOrder?: "sequential" | "staggered" | "simultaneous";
   cardAlignment?: "alternating" | "left" | "right";
   lineColor?: string;
-  activeColor?: string;
   progressIndicator?: boolean;
   cardVariant?: "default" | "elevated" | "outlined" | "filled";
   cardEffect?: "none" | "glow" | "shadow" | "bounce";
@@ -32,9 +31,8 @@ export interface ScrollTimelineProps {
   className?: string;
   revealAnimation?: "fade" | "slide" | "scale" | "flip" | "none";
   connectorStyle?: "dots" | "line" | "dashed";
-  perspective?: boolean;
+  // perspective prop removed (unused)
   darkMode?: boolean;
-  smoothScroll?: boolean;
 }
 
 const DEFAULT_EVENTS: TimelineEvent[] = [
@@ -66,7 +64,6 @@ export const ScrollTimeline = ({
   animationOrder = "sequential",
   cardAlignment = "alternating",
   lineColor = "bg-primary/30",
-  activeColor = "bg-primary",
   progressIndicator = true,
   cardVariant = "default",
   cardEffect = "none",
@@ -77,9 +74,7 @@ export const ScrollTimeline = ({
   revealAnimation = "fade",
   className = "",
   connectorStyle = "line",
-  perspective = false,
   darkMode = false,
-  smoothScroll = true,
 }: ScrollTimelineProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -199,10 +194,6 @@ export const ScrollTimeline = ({
         : cardAlignment === "left"
         ? "lg:mr-auto lg:ml-0"
         : "lg:ml-auto lg:mr-0";
-    const perspectiveClass = perspective
-      ? "transform transition-transform hover:rotate-y-1 hover:rotate-x-1"
-      : "";
-
     return cn(
       baseClasses,
       variantClasses[cardVariant],

@@ -104,7 +104,7 @@ export async function GET(req: Request) {
 
     // Optional field filtering
     const fields = (searchParams.get('fields') || '').split(',').map(s => s.trim()).filter(Boolean);
-  let payload: RawRepo[] = Array.isArray(data) ? (data as RawRepo[]) : [];
+  const payload: RawRepo[] = Array.isArray(data) ? (data as RawRepo[]) : [];
 
     let output: Array<PublicRepo | Record<string, unknown>>;
     if (fields.length > 0) {

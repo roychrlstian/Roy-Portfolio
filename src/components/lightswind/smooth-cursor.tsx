@@ -132,9 +132,9 @@ export function SmoothCursor({
   disabled = false,
   disableOnTouch = true,
 }: SmoothCursorProps) {
-  const [isMoving, setIsMoving] = useState(false);
+  // Removed unused isMoving state
   const [isVisible, setIsVisible] = useState(true);
-  const [isClicking, setIsClicking] = useState(false);
+  // Removed unused isClicking state
   const [trail, setTrail] = useState<Position[]>([]);
 
   const lastMousePos = useRef<Position>({ x: 0, y: 0 });
@@ -243,11 +243,8 @@ export function SmoothCursor({
         previousAngle.current = currentAngle;
 
         scale.set(0.95);
-        setIsMoving(true);
-
         const timeout = setTimeout(function () {
           scale.set(1);
-          setIsMoving(false);
         }, 150);
 
         return function () {
@@ -269,17 +266,11 @@ export function SmoothCursor({
     };
 
     const handleMouseDown = function () {
-      if (scaleOnClick) {
-        setIsClicking(true);
-        scale.set(0.8);
-      }
+      if (scaleOnClick) scale.set(0.8);
     };
 
     const handleMouseUp = function () {
-      if (scaleOnClick) {
-        setIsClicking(false);
-        scale.set(1);
-      }
+      if (scaleOnClick) scale.set(1);
     };
 
     let rafId: number;

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { cn } from "../lib/utils";
 import { Pause, Play } from "lucide-react";
 
@@ -53,19 +53,7 @@ export function SlidingLogoMarquee({
 }: SlidingLogoMarqueeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setDimensions({ width: rect.width, height: rect.height });
-      }
-    };
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
+  // Removed unused dimensions state and effect.
 
   const handleItemClick = (item: SlidingLogoMarqueeItem) => {
     if (item.href) {
