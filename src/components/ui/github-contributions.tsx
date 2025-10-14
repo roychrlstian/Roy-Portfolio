@@ -37,9 +37,10 @@ export default function GitHubContributions({ user, from, to, className }: Props
       }
       const text = await res.text();
       setSvg(text);
-    } catch (e: any) {
+    } catch (e) {
       setSvg(null);
-      setError(e?.message || 'Failed to load');
+      const message = e instanceof Error ? e.message : 'Failed to load';
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -69,7 +70,6 @@ export default function GitHubContributions({ user, from, to, className }: Props
       {!loading && !error && svg && (
         <div
           className="w-full overflow-x-auto rounded-lg border border-white/10 bg-[#0f1724] p-4"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: svg }}
         />
       )}

@@ -80,8 +80,8 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: `Could not locate contributions SVG in GitHub response${hint}` }, { status: 502 });
     }
 
-    const hasPreserve = /preserveAspectRatio=/i.test(svgRaw);
-    let svg = svgRaw
+  const hasPreserve = /preserveAspectRatio=/i.test(svgRaw);
+  const svg = svgRaw
       // Ensure width is responsive (handle both ' and ")
       .replace(/width=\"\d+\"/i, 'width=\"100%\"')
       .replace(/width='\d+'/i, "width='100%'")
@@ -98,7 +98,8 @@ export async function GET(req: Request) {
       },
       status: 200,
     });
-  } catch (err: any) {
-    return NextResponse.json({ error: err?.message || 'Unknown error' }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

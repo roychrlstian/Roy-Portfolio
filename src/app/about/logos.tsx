@@ -1,36 +1,37 @@
 import { SlidingLogoMarqueeItem } from "@/components/lightswind/sliding-logo-marquee";
+import Image from "next/image";
 
 export const logos: SlidingLogoMarqueeItem[] = [
     {
       id: "1",
-      content: <img src="/icon/Java.png" alt="Java" className="h-20" />
+  content: <Image src="/icon/Java.png" alt="Java" width={80} height={80} className="h-20 w-auto" />
     },
     {
       id: "2",
-      content: <img src="/icon/Python.png" alt="Python" className="h-20" />
+  content: <Image src="/icon/Python.png" alt="Python" width={80} height={80} className="h-20 w-auto" />
     },
     {
       id: "3",
-      content: <img src="/icon/JavaScript.png" alt="JavaScript" className="h-20" />
+  content: <Image src="/icon/JavaScript.png" alt="JavaScript" width={80} height={80} className="h-20 w-auto" />
     },
     {
       id: "4",
-      content: <img src="/icon/SQL.png" alt="SQL" className="h-20" />
+  content: <Image src="/icon/SQL.png" alt="SQL" width={80} height={80} className="h-20 w-auto" />
     },
     {
       id: "5",
-      content: <img src="/icon/Java.png" alt="Java" className="h-20" />
+  content: <Image src="/icon/Java.png" alt="Java" width={80} height={80} className="h-20 w-auto" />
     },
     {
       id: "6",
-      content: <img src="/icon/Python.png" alt="Python" className="h-20" />
+  content: <Image src="/icon/Python.png" alt="Python" width={80} height={80} className="h-20 w-auto" />
     },
     {
       id: "7",
-      content: <img src="/icon/JavaScript.png" alt="JavaScript" className="h-20" />
+  content: <Image src="/icon/JavaScript.png" alt="JavaScript" width={80} height={80} className="h-20 w-auto" />
     },
     {
       id: "8",
-      content: <img src="/icon/SQL.png" alt="SQL" className="h-20" />
+  content: <Image src="/icon/SQL.png" alt="SQL" width={80} height={80} className="h-20 w-auto" />
     },
   ]
