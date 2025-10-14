@@ -18,7 +18,7 @@ const AboutPage = () => {
   const router = useRouter();
   const [reposKey, setReposKey] = React.useState(0);
   return (
-          <div className="min-h-screen bg-[#0f1724] text-white">
+          <div className="min-h-screen page-bg text-white">
             <Navbar />
             <div className="pt-10">
             <main className="max-w-6xl mx-auto mb-10 p-8">
@@ -26,7 +26,7 @@ const AboutPage = () => {
               <Reveal variant="fade-up">
               <section className="relative mt-12 min-h-[70vh] flex items-center justify-center px-4 md:px-0">
                 {/* Tagline (top-left on large screens) */}
-                <div className="absolute top-0 left-4 md:left-27 max-w-sm space-y-1 md:space-y-2 font-semibold text-base md:text-[25px] leading-snug z-30 text-left">
+                <div className="absolute top-0 left-4 md:left-27 max-w-sm space-y-1 md:space-y-2 font-semibold text-base md:text-[25px] leading-snug z-30 text-left heading-3 gradient-text">
                   <p>Web Developer</p>
                   <p>Graphics Designer based</p>
                   <p>in Philippines</p>
@@ -76,10 +76,7 @@ const AboutPage = () => {
                   </div>
                 </div>
                 {/* Description + CTA (bottom-right)*/}
-                <div className="absolute bottom-4 md:bottom-[-63px] left-4 md:left-auto md:right-0 max-w-sm text-xs sm:text-sm md:text-xl leading-relaxed space-y-4 md:space-y-6 z-30 text-left">
-                  <p className="text-white/90">
-                    Hi, I&apos;m Roy Cruz a web developer and Graphics Designer passionate about crafting intuitive, responsive, and visually engaging digital experiences that inspire and connect.
-                  </p>
+                <div className="absolute bottom-4 md:bottom-[10px] left-4 md:left-auto md:right-27 max-w-sm text-xs sm:text-sm md:text-xl leading-relaxed space-y-4 md:space-y-6 z-100 text-left">
                   <SlideToUnlock
                     onComplete={() => router.push('/design')}
                     label="See my works"
@@ -135,13 +132,13 @@ const AboutPage = () => {
             <Reveal variant="fade-up">
               <section className="max-w-6xl mx-auto px-8 mt-14 mb-20">
                 {/* 01 Software Skills */}
-                <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-8">
+                <h2 className="heading-2 mb-8 gradient-text">
                   <span className="text-white/70 mr-2">01</span> Software skills
                 </h2>
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-12 md:gap-20">
                   {/* Development & Programming */}
                   <div className="flex-1 max-w-3xl">
-                    <h3 className="text-xl md:text-2xl font-medium mb-6">Development &amp; Programming</h3>
+                    <h3 className="heading-3 mb-6">Development &amp; Programming</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-10 text-lg md:text-xl">
                       <ul className="space-y-2 list-disc list-inside font-light">
                         <li>Java</li>
@@ -162,7 +159,7 @@ const AboutPage = () => {
                   </div>
                   {/* Design & Creative Tools */}
                   <div className="flex-1 md:max-w-sm">
-                    <h3 className="text-xl md:text-2xl font-medium mb-6">Design &amp; Creative Tools</h3>
+                    <h3 className="heading-3 mb-6">Design &amp; Creative Tools</h3>
                     <ul className="space-y-2 list-disc list-inside text-lg md:text-xl font-light">
                       <li>Krita</li>
                       <li>Photoshop</li>
@@ -172,7 +169,7 @@ const AboutPage = () => {
                 </div>
                 <hr className="my-10 border-white/20" />
                 {/* 02 Work Experience */}
-                <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-10">
+                <h2 className="heading-2 mb-10 gradient-text">
                   <span className="text-white/70 mr-2">02</span> Work experience
                 </h2>
                 <div className="flex flex-col gap-6">
@@ -192,7 +189,7 @@ const AboutPage = () => {
                 </div>
                 <hr className="my-10 border-white/20" />
                 {/* 03 Public Repositories */}
-                <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-6">
+                <h2 className="heading-2 mb-6 gradient-text">
                   <span className="text-white/70 mr-2">03</span> Public repositories
                 </h2>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-3">

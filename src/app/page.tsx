@@ -5,8 +5,8 @@ import { SmoothCursor } from "@/components/lightswind/smooth-cursor";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 shadow-2xs bg-[#0f1724]">
-      <Link href="/about" className="shine-link text-center text-inter text-3xl text-white text-shadow-2xs font-bold border-5 py-1.5 px-4 rounded-xs rounded-br-xl">
+    <div className="flex flex-col items-center justify-center min-h-screen page-bg py-10">
+      <Link href="/about" className="shine-link heading-hero gradient-text font-bold py-2 px-6 rounded-md shadow-glow">
         <span className="label-normal">NEXT</span>
         <span className="label-hover">&gt;&gt;&gt;&gt;</span>
       </Link>
