@@ -196,7 +196,7 @@ const AboutPage = () => {
                 </h2>
                 <p className="text-white/70 mb-4 text-sm md:text-base">A snapshot of my coding activity. Data from the last 12 months.</p>
                 <GitHubContributions
-                  user="roy9flash"
+                  user="roychrlstian"
                   className="mt-2"
                 />
               </section>
