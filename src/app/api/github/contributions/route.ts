@@ -7,6 +7,21 @@ function formatDate(d: Date) {
   return `${yyyy}-${mm}-${dd}`;
 }
 
+function extractContribSvg(html: string): string | null {
+  // 1) Prefer class used in the contributions graph
+  const byClass = html.match(/<svg[^>]*class=\"[^\"]*js-calendar-graph-svg[^\"]*\"[\s\S]*?<\/svg>/i);
+  if (byClass?.[0]) return byClass[0];
+  // 2) Any svg containing data-date rects
+  const all = html.match(/<svg[\s\S]*?<\/svg>/gi) || [];
+  for (const s of all) {
+    if (/data-date=\"\d{4}-\d{2}-\d{2}\"/.test(s)) return s;
+  }
+  // 3) Some pages wrap the graph in <turbo-frame> or have a container with data-graph-url; try to dereference
+  // Not followed here (no DOM parsing), but keep as a future hook.
+  // 4) Last resort: return first svg
+  return all[0] ?? null;
+}
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -21,44 +36,48 @@ export async function GET(req: Request) {
     const to = toParam ? new Date(toParam) : new Date();
     const from = fromParam ? new Date(fromParam) : new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
 
-    const url = `https://github.com/users/${encodeURIComponent(user)}/contributions?from=${formatDate(from)}&to=${formatDate(to)}`;
+    const baseHeaders = {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Accept': 'text/html,application/xhtml+xml',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Referer': 'https://github.com/',
+    } as const;
 
-    const res = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml',
-        'Accept-Language': 'en-US,en;q=0.9',
-      },
-      // Revalidate every 6 hours to avoid hammering GitHub
-      next: { revalidate: 21600 },
-    });
+    const urls = [
+      // Contributions with range
+      `https://github.com/users/${encodeURIComponent(user)}/contributions?from=${formatDate(from)}&to=${formatDate(to)}`,
+      // Contributions without range
+      `https://github.com/users/${encodeURIComponent(user)}/contributions`,
+      // Fallback: user profile (the graph is often embedded here too)
+      `https://github.com/${encodeURIComponent(user)}`,
+    ];
 
-    if (!res.ok) {
-      return NextResponse.json({ error: `GitHub responded with ${res.status}` }, { status: 502 });
-    }
+    let svgRaw: string | null = null;
+    let lastStatus: number | null = null;
 
-    const html = await res.text();
-
-    // Prefer SVG with the known class name GitHub uses
-    const byClass = html.match(/<svg[^>]*class=\"[^\"]*js-calendar-graph-svg[^\"]*\"[\s\S]*?<\/svg>/i);
-    let svgRaw = byClass?.[0] || null;
-
-    // Fallback: Any SVG that contains contribution day rects (data-date="YYYY-MM-DD")
-    if (!svgRaw) {
-      const all = html.match(/<svg[\s\S]*?<\/svg>/gi) || [];
-      for (const candidate of all) {
-        if (/data-date=\"\d{4}-\d{2}-\d{2}\"/.test(candidate)) {
-          svgRaw = candidate;
-          break;
+    for (const url of urls) {
+      const res = await fetch(url, { headers: baseHeaders, next: { revalidate: 21600 } });
+      lastStatus = res.status;
+      if (!res.ok) continue;
+      const html = await res.text();
+      svgRaw = extractContribSvg(html);
+      // Fallback: some pages include a data-graph-url attribute pointing to the actual SVG fragment
+      if (!svgRaw) {
+        const m = html.match(/data-graph-url=\"([^\"]+)\"/i);
+        if (m?.[1]) {
+          const graphUrl = new URL(m[1], 'https://github.com').toString();
+          const fragRes = await fetch(graphUrl, { headers: baseHeaders, next: { revalidate: 21600 } });
+          if (fragRes.ok) {
+            const fragHtml = await fragRes.text();
+            svgRaw = extractContribSvg(fragHtml);
+          }
         }
       }
-      if (!svgRaw && all.length > 0) {
-        svgRaw = all[0] ?? null;
-      }
+      if (svgRaw) break;
     }
-
     if (!svgRaw) {
-      return NextResponse.json({ error: 'Could not locate contributions SVG in GitHub response' }, { status: 502 });
+      const hint = lastStatus ? ` (last status ${lastStatus})` : '';
+      return NextResponse.json({ error: `Could not locate contributions SVG in GitHub response${hint}` }, { status: 502 });
     }
 
     const hasPreserve = /preserveAspectRatio=/i.test(svgRaw);
