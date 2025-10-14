@@ -201,9 +201,7 @@ const AboutPage = () => {
                     type="button"
                     onClick={() => setReposKey(k => k + 1)}
                     className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-1.5 text-xs md:text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors"
-                    aria-label="Refresh public repositories"
-                  >
-                    <span className="h-3 w-3 rounded-full border-2 border-current border-t-transparent" />
+                    aria-label="Refresh public repositories">
                     Refresh
                   </button>
                 </div>
@@ -216,8 +214,6 @@ const AboutPage = () => {
                 />
               </section>
             </Reveal>
-
-
 
             <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/>
             <Footer/>
