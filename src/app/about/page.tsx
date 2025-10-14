@@ -16,6 +16,7 @@ import GitHubRepos from '@/components/ui/github-repos';
 
 const AboutPage = () => {
   const router = useRouter();
+  const [reposKey, setReposKey] = React.useState(0);
   return (
           <div className="min-h-screen bg-[#0f1724] text-white">
             <Navbar />
@@ -194,8 +195,20 @@ const AboutPage = () => {
                 <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-6">
                   <span className="text-white/70 mr-2">03</span> Public repositories
                 </h2>
-                <p className="text-white/70 mb-4 text-sm md:text-base">Some of my public projects on GitHub.</p>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-3">
+                  <p className="text-white/70 text-sm md:text-base m-0">Some of my public projects on GitHub.</p>
+                  <button
+                    type="button"
+                    onClick={() => setReposKey(k => k + 1)}
+                    className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-1.5 text-xs md:text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                    aria-label="Refresh public repositories"
+                  >
+                    <span className="h-3 w-3 rounded-full border-2 border-current border-t-transparent" />
+                    Refresh
+                  </button>
+                </div>
                 <GitHubRepos
+                  key={reposKey}
                   user="roychrlstian"
                   limit={6}
                   sortBy="updated"
