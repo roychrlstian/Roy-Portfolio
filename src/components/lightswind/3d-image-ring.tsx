@@ -67,9 +67,9 @@ export function ThreeDImageRing({
   ease = "easeOut",
   mobileBreakpoint = 768,
   mobileScaleFactor = 0.8,
-  inertiaPower = 0.8, // Default power for inertia
-  inertiaTimeConstant = 300, // Default time constant for inertia
-  inertiaVelocityMultiplier = 20, // Default multiplier for initial spin
+  inertiaPower = 0.005, // Default power for inertia
+  inertiaTimeConstant = 200, // Default time constant for inertia
+  inertiaVelocityMultiplier = 0, // Default multiplier for initial spin
   imageFit = 'cover',
   maxTextureSize = 1024,
 }: ThreeDImageRingProps) {
@@ -291,6 +291,8 @@ const handleDragEnd = () => {
                     src={normalizedSrc}
                     alt={`carousel-${index}`}
                     fill
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
                     style={{ objectFit: imageFit as 'cover' | 'contain', objectPosition: imageFit === 'contain' ? 'center center' : getBgPos(index, currentRotationY.current, currentScale) }}
                     sizes={`${Math.min(width, cappedTextureSize)}px`}
                     loading={index === 0 ? 'eager' : 'lazy'}
