@@ -39,7 +39,7 @@ const AboutPage = () => {
                 <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center z-0">
                   <div className="relative w-screen md:w-[1000px] max-w-[1200px] aspect-[9/2]">
                     <Image
-                      src="/roy/1.png"
+                      src="/optimized/roy/1-1052.webp"
                       alt=""
                       fill
                       priority
@@ -66,7 +66,7 @@ const AboutPage = () => {
                 <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center z-20">
                   <div className="relative w-screen md:w-[1000px] max-w-[1200px] aspect-[9/2]">
                     <Image
-                      src="/roy/2.png"
+                      src="/optimized/roy/2-1052.webp"
                       alt=""
                       fill
                       priority
