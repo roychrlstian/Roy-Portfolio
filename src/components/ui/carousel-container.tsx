@@ -1,6 +1,15 @@
-import React from 'react';
-import { ThreeDImageRing, ThreeDImageRingProps } from '../lightswind/3d-image-ring';
+"use client";
+
+import React, { Suspense, useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+import type { ThreeDImageRingProps } from '../lightswind/3d-image-ring';
 import { cn } from '../lib/utils';
+
+// Dynamically import heavy 3D component on client and disable SSR
+const ThreeDImageRing = dynamic(
+  () => import('../lightswind/3d-image-ring').then((m) => m.ThreeDImageRing),
+  { ssr: false }
+);
 
 export interface CarouselItem {
   /** Heading displayed above the ring */
@@ -63,13 +72,42 @@ export function CarouselContainer({
               {item.beforeTitle}
               <h2 className={cn(defaultTitleClassName, item.titleClassName)}>{item.title}</h2>
               {item.afterTitle}
-              <div className={item.wrapperClassName}>
-                <ThreeDImageRing {...item.ringProps} />
-              </div>
+              <LazyRingWrapper className={item.wrapperClassName} ringProps={item.ringProps} />
             </div>
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function LazyRingWrapper({ className, ringProps }: { className?: string; ringProps: ThreeDImageRingProps }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          io.disconnect();
+        }
+      });
+    }, { rootMargin: '200px' });
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className={className}>
+      {visible ? (
+        <Suspense fallback={<div className="h-48 bg-zinc-900/60 rounded-md animate-pulse" />}>
+          <ThreeDImageRing {...ringProps} />
+        </Suspense>
+      ) : (
+        <div className="h-48 bg-zinc-900/60 rounded-md" />
+      )}
     </div>
   );
 }

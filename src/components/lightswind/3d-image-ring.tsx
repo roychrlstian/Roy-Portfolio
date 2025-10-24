@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import Image from 'next/image';
 import { motion, AnimatePresence, useMotionValue, easeOut } from "framer-motion";
 import { cn } from "../lib/utils"; // Assuming you have this utility for class names
 import { animate } from "framer-motion";
@@ -45,6 +46,8 @@ export interface ThreeDImageRingProps {
   inertiaVelocityMultiplier?: number;
   /** How images should fit inside each panel */
   imageFit?: 'cover' | 'contain';
+  /** Maximum texture size (px) to limit large image usage for performance */
+  maxTextureSize?: number;
 }
 
 export function ThreeDImageRing({
@@ -68,6 +71,7 @@ export function ThreeDImageRing({
   inertiaTimeConstant = 300, // Default time constant for inertia
   inertiaVelocityMultiplier = 20, // Default multiplier for initial spin
   imageFit = 'cover',
+  maxTextureSize = 1024,
 }: ThreeDImageRingProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
@@ -82,6 +86,8 @@ export function ThreeDImageRing({
   const [showImages, setShowImages] = useState(false);
 
   const angle = useMemo(() => 360 / images.length, [images.length]);
+
+  const cappedTextureSize = useMemo(() => Math.max(512, Math.min(2048, maxTextureSize)), [maxTextureSize]);
 
   const getBgPos = useCallback((imageIndex: number, currentRot: number, scale: number) => {
     const scaledImageDistance = imageDistance * scale;
@@ -251,33 +257,38 @@ const handleDragEnd = () => {
                 key={index}
                 className={cn(
                   "w-full h-full absolute",
-                  imageClassName
+                  imageClassName,
                 )}
                 style={{
                   transformStyle: "preserve-3d",
-                  backgroundImage: `url(${imageUrl})`,
-                  backgroundSize: imageFit,
-                  backgroundRepeat: "no-repeat",
                   backfaceVisibility: "hidden",
                   rotateY: index * -angle,
                   z: -imageDistance * currentScale,
                   transformOrigin: `50% 50% ${imageDistance * currentScale}px`,
-                  backgroundPosition: imageFit === 'contain'
-                    ? 'center center'
-                    : getBgPos(index, currentRotationY.current, currentScale),
                 }}
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                variants={imageVariants} // Use the simplified variants object
-                custom={index} // Pass the index as a custom prop
+                variants={imageVariants}
+                custom={index}
                 transition={{
                   delay: index * staggerDelay,
                   duration: animationDuration,
                   ease: ease === 'easeOut' ? easeOut : undefined,
                 }}
-                // Hover opacity behavior removed per request
-              />
+              >
+                <div style={{ position: 'absolute', inset: 0 }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`carousel-${index}`}
+                    fill
+                    style={{ objectFit: imageFit as 'cover' | 'contain', objectPosition: imageFit === 'contain' ? 'center center' : getBgPos(index, currentRotationY.current, currentScale) }}
+                    sizes={`${Math.min(width, cappedTextureSize)}px`}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    priority={index === 0}
+                  />
+                </div>
+              </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
