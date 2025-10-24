@@ -252,7 +252,16 @@ const handleDragEnd = () => {
           }}
         >
           <AnimatePresence>
-            {showImages && images.map((imageUrl, index) => (
+            {showImages && images.map((imageUrl, index) => {
+              const normalizedSrc = (() => {
+                if (!imageUrl) return imageUrl;
+                // If it's already an absolute URL or data URL, use as-is
+                if (/^(https?:)?\/\//.test(imageUrl) || imageUrl.startsWith('data:')) return imageUrl;
+                // Ensure public/ paths are rooted at '/'
+                return imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`;
+              })();
+
+              return (
               <motion.div
                 key={index}
                 className={cn(
@@ -279,7 +288,7 @@ const handleDragEnd = () => {
               >
                 <div style={{ position: 'absolute', inset: 0 }}>
                   <Image
-                    src={imageUrl}
+                    src={normalizedSrc}
                     alt={`carousel-${index}`}
                     fill
                     style={{ objectFit: imageFit as 'cover' | 'contain', objectPosition: imageFit === 'contain' ? 'center center' : getBgPos(index, currentRotationY.current, currentScale) }}
@@ -289,7 +298,8 @@ const handleDragEnd = () => {
                   />
                 </div>
               </motion.div>
-            ))}
+            );
+            })}
           </AnimatePresence>
         </motion.div>
       </div>
