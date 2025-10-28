@@ -342,12 +342,12 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
   enableRipples = true,
   rippleIntensityScale = 1,
   rippleThickness = 0.1,
-  rippleSpeed = 0.3,
+  rippleSpeed = 3.0,
   liquidWobbleSpeed = 4.5,
   autoPauseOffscreen = true,
-  speed = 0.5,
+  speed = 3.0,
   transparent = true,
-  edgeFade = 0.5,
+  edgeFade = 0.08,
   noiseAmount = 0
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -386,18 +386,18 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
     touch?: ReturnType<typeof createTouchTexture>;
     liquidEffect?: Effect;
   } | null>(null);
-  const prevConfigRef = useRef<any>(null);
+  const prevConfigRef = useRef<Record<string, unknown> | null>(null);
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
     speedRef.current = speed;
-    const needsReinitKeys = ['antialias', 'liquid', 'noiseAmount'];
+  const needsReinitKeys: Array<keyof typeof cfg> = ['antialias', 'liquid', 'noiseAmount'];
     const cfg = { antialias, liquid, noiseAmount };
     let mustReinit = false;
     if (!threeRef.current) mustReinit = true;
     else if (prevConfigRef.current) {
       for (const k of needsReinitKeys)
-        if (prevConfigRef.current[k] !== (cfg as any)[k]) {
+        if (prevConfigRef.current[k] !== cfg[k]) {
           mustReinit = true;
           break;
         }
@@ -474,7 +474,7 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       const ro = new ResizeObserver(setSize);
       ro.observe(container);
       const randomFloat = () => {
-        if (typeof window !== 'undefined' && (window as any).crypto?.getRandomValues) {
+        if (typeof window !== 'undefined' && window.crypto?.getRandomValues) {
           const u32 = new Uint32Array(1);
           window.crypto.getRandomValues(u32);
           return u32[0] / 0xffffffff;
@@ -516,7 +516,10 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
         );
         const noisePass = new EffectPass(camera, noiseEffect);
         noisePass.renderToScreen = true;
-        if (composer && composer.passes.length > 0) composer.passes.forEach(p => ((p as any).renderToScreen = false));
+        if (composer && composer.passes.length > 0) composer.passes.forEach(p => {
+          const pass = p as unknown as { renderToScreen?: boolean };
+          pass.renderToScreen = false;
+        });
         composer.addPass(noisePass);
       }
       if (composer) composer.setSize(renderer.domElement.width, renderer.domElement.height);
@@ -558,14 +561,18 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
           return;
         }
         uniforms.uTime.value = timeOffset + clock.getElapsedTime() * speedRef.current;
-        if (liquidEffect) (liquidEffect as any).uniforms.get('uTime').value = uniforms.uTime.value;
+        if (liquidEffect) {
+          const u = (liquidEffect as unknown as { uniforms?: Map<string, THREE.Uniform> }).uniforms?.get('uTime');
+          if (u) u.value = uniforms.uTime.value;
+        }
         if (composer) {
           if (touch) touch.update();
           composer.passes.forEach(p => {
-            const effs = (p as any).effects;
+            const effs = (p as unknown as { effects?: unknown[] }).effects;
             if (effs)
-              effs.forEach((eff: any) => {
-                const u = eff.uniforms?.get('uTime');
+              effs.forEach((eff) => {
+                const e = eff as unknown as { uniforms?: Map<string, THREE.Uniform> };
+                const u = e.uniforms?.get('uTime');
                 if (u) u.value = uniforms.uTime.value;
               });
           });
@@ -606,9 +613,10 @@ const PixelBlast: React.FC<PixelBlastProps> = ({
       if (transparent) t.renderer.setClearAlpha(0);
       else t.renderer.setClearColor(0x000000, 1);
       if (t.liquidEffect) {
-        const uStrength = (t.liquidEffect as any).uniforms.get('uStrength');
+        const lq = t.liquidEffect as unknown as { uniforms?: Map<string, THREE.Uniform> };
+        const uStrength = lq.uniforms?.get('uStrength');
         if (uStrength) uStrength.value = liquidStrength;
-        const uFreq = (t.liquidEffect as any).uniforms.get('uFreq');
+        const uFreq = lq.uniforms?.get('uFreq');
         if (uFreq) uFreq.value = liquidWobbleSpeed;
       }
       if (t.touch) t.touch.radiusScale = liquidRadius;
