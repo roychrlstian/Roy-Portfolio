@@ -4,6 +4,7 @@ import Navbar from '../../components/ui/navbar'
 import Footer from '@/components/ui/footer'
 import Image from 'next/image'
 import Reveal from '@/components/ui/reveal'
+import PixelBlast from '@/components/ui/PixelBlast'
 import Marquee from '@/components/ui/marquee'
 import { useRouter } from 'next/navigation'
 import SlideToUnlock from '@/components/ui/slide-to-unlock'
@@ -25,6 +26,8 @@ const AboutPage = () => {
               {/* Hero / Identity Section */}
               <Reveal variant="fade-up">
               <section className="relative mt-12 min-h-[70vh] flex items-center justify-center px-4 md:px-0">
+                {/* PixelBlast background */}
+                <PixelBlast color="#0f1724" className="absolute inset-0 w-full h-full -z-10 pointer-events-none" />
                 {/* Tagline (top-left on large screens) */}
                 <div className="absolute top-0 left-4 md:left-27 max-w-sm space-y-1 md:space-y-2 font-semibold text-base md:text-[25px] leading-snug z-30 text-left heading-3 text-white">
                   <p className="text-white">Web Developer</p>

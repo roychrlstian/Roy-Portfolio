@@ -67,7 +67,7 @@ export function ThreeDImageRing({
   ease = "easeOut",
   mobileBreakpoint = 768,
   mobileScaleFactor = 0.8,
-  inertiaPower = 0.005, // Default power for inertia
+  inertiaPower = -10, // Default power for inertia
   inertiaTimeConstant = 200, // Default time constant for inertia
   inertiaVelocityMultiplier = 0, // Default multiplier for initial spin
   imageFit = 'cover',
