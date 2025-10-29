@@ -122,10 +122,15 @@ export async function GET(req: Request) {
       output = payload.map(pickRepoFields);
     }
 
+    // If the client included a cache_bust param, prefer a non-cached response so
+    // refresh actions always get fresh data from the server instead of an edge cache.
+    const cacheBust = searchParams.get('cache_bust');
+    const headers: Record<string,string> = cacheBust
+      ? { 'Cache-Control': 'no-store, no-cache, max-age=0, must-revalidate' }
+      : { 'Cache-Control': 'public, max-age=0, s-maxage=3600' };
+
     return NextResponse.json(output, {
-      headers: {
-        'Cache-Control': 'public, max-age=0, s-maxage=3600',
-      },
+      headers,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
