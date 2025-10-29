@@ -37,7 +37,8 @@ export default function GitHubRepos({ user, limit = 6, showTopics = true, classN
       try {
         setLoading(true);
         setError(null);
-        const params = new URLSearchParams({ user, per_page: '100' });
+        // include a cache-busting param so deployed edge cache is bypassed when nonce changes
+        const params = new URLSearchParams({ user, per_page: '100', cache_bust: String(nonce) });
         if (fields) params.set('fields', fields);
         const res = await fetch(`/api/github/repos?${params.toString()}`);
         if (!res.ok) {
