@@ -86,14 +86,20 @@ export async function GET(req: Request) {
 
     const url = `${GITHUB_API}/users/${encodeURIComponent(user)}/repos?type=public&sort=${encodeURIComponent(sort)}&page=${encodeURIComponent(page)}&per_page=${encodeURIComponent(per_page)}`;
 
-    const res = await fetch(url, {
-      headers: {
-        'User-Agent': 'Roy-Portfolio-App',
-        'Accept': 'application/vnd.github+json',
-      },
-      // Cache at the edge for 1 hour
-      next: { revalidate: 3600 },
-    });
+    // If the client requested a cache_bust, bypass Next/Vercel edge caching for the
+    // outbound GitHub request so we get fresh data from GitHub.
+    const cacheBust = searchParams.get('cache_bust');
+    // Build fetch options differently depending on whether we want to bypass caching.
+    const baseHeaders = {
+      'User-Agent': 'Roy-Portfolio-App',
+      'Accept': 'application/vnd.github+json',
+    };
+
+    const fetchOpts = cacheBust
+      ? { headers: baseHeaders, cache: 'no-store' }
+      : { headers: baseHeaders, next: { revalidate: 3600 } };
+
+  const res = await fetch(url, fetchOpts as unknown as RequestInit);
 
     if (!res.ok) {
       const text = await res.text();
@@ -124,7 +130,6 @@ export async function GET(req: Request) {
 
     // If the client included a cache_bust param, prefer a non-cached response so
     // refresh actions always get fresh data from the server instead of an edge cache.
-    const cacheBust = searchParams.get('cache_bust');
     const headers: Record<string,string> = cacheBust
       ? { 'Cache-Control': 'no-store, no-cache, max-age=0, must-revalidate' }
       : { 'Cache-Control': 'public, max-age=0, s-maxage=3600' };
