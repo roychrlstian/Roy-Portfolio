@@ -70,10 +70,7 @@ export default function GitHubRepos({ user, limit = 6, showTopics = true, classN
   }, [user, limit, fields, sortBy, nonce]);
 
   // Auto-refresh every 10 seconds
-  React.useEffect(() => {
-    const id = setInterval(() => setNonce(n => n + 1), 10000); // 10s
-    return () => clearInterval(id);
-  }, [cacheBust]);
+  // Auto-refresh disabled: manual Refresh button or Retry will increment `nonce`.
 
   return (
     <div className={className}>

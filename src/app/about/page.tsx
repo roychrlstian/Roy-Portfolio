@@ -18,6 +18,15 @@ import GitHubRepos from '@/components/ui/github-repos';
 const AboutPage = () => {
   const router = useRouter();
   const [reposKey, setReposKey] = React.useState(0);
+  const [reposDisabled, setReposDisabled] = React.useState(false);
+
+  function handleRefresh() {
+    if (reposDisabled) return;
+    setReposKey(k => k + 1);
+    setReposDisabled(true);
+    // cooldown 10 seconds to prevent spamming
+    setTimeout(() => setReposDisabled(false), 10000);
+  }
   return (
           <div className="min-h-screen page-bg text-white">
             <Navbar />
@@ -199,10 +208,11 @@ const AboutPage = () => {
                   <p className="text-white/70 text-sm md:text-base m-0">Some of my public projects on GitHub.</p>
                   <button
                     type="button"
-                    onClick={() => setReposKey(k => k + 1)}
-                    className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-1.5 text-xs md:text-sm font-medium text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                    onClick={handleRefresh}
+                    disabled={reposDisabled}
+                    className={`inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/5 px-4 py-1.5 text-xs md:text-sm font-medium text-white/70 transition-colors ${reposDisabled ? 'opacity-40 cursor-not-allowed' : 'hover:bg-white/10 hover:text-white'}`}
                     aria-label="Refresh public repositories">
-                    Refresh
+                    {reposDisabled ? 'Refreshing…' : 'Refresh'}
                   </button>
                 </div>
                 <GitHubRepos
