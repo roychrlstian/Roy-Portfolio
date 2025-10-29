@@ -207,6 +207,7 @@ const AboutPage = () => {
                 </div>
                 <GitHubRepos
                   key={reposKey}
+                  cacheBust={reposKey}
                   user="roychrlstian"
                   limit={6}
                   sortBy="updated"

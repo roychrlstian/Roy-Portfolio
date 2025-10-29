@@ -23,9 +23,10 @@ interface Props {
   className?: string;
   fields?: string; // override field list passed to API
   sortBy?: 'stars' | 'updated'; // local sort if needed
+  cacheBust?: number; // optional external cache-bust value (e.g. from parent Refresh button)
 }
 
-export default function GitHubRepos({ user, limit = 6, showTopics = true, className, fields, sortBy = 'updated' }: Props) {
+export default function GitHubRepos({ user, limit = 6, showTopics = true, className, fields, sortBy = 'updated', cacheBust }: Props) {
   const [repos, setRepos] = React.useState<RepoItem[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
@@ -37,8 +38,10 @@ export default function GitHubRepos({ user, limit = 6, showTopics = true, classN
       try {
         setLoading(true);
         setError(null);
-        // include a cache-busting param so deployed edge cache is bypassed when nonce changes
-        const params = new URLSearchParams({ user, per_page: '100', cache_bust: String(nonce) });
+        // include a cache-busting param so deployed edge cache is bypassed when nonce or parent cacheBust changes
+        // prefer an external cacheBust prop (from the Refresh button) so remounting with a new key forces a unique URL
+        const cacheValue = cacheBust !== undefined ? cacheBust : nonce;
+        const params = new URLSearchParams({ user, per_page: '100', cache_bust: String(cacheValue) });
         if (fields) params.set('fields', fields);
         const res = await fetch(`/api/github/repos?${params.toString()}`);
         if (!res.ok) {
@@ -68,9 +71,9 @@ export default function GitHubRepos({ user, limit = 6, showTopics = true, classN
 
   // Auto-refresh every 10 seconds
   React.useEffect(() => {
-    const id = setInterval(() => setNonce(n => n + 1), 100000);
+    const id = setInterval(() => setNonce(n => n + 1), 10000); // 10s
     return () => clearInterval(id);
-  }, []);
+  }, [cacheBust]);
 
   return (
     <div className={className}>
