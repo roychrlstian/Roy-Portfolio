@@ -31,12 +31,15 @@ const AboutPage = () => {
           <div className="min-h-screen page-bg text-white">
             <Navbar />
             <div className="pt-10">
-            <main className="max-w-6xl mx-auto mb-10 p-8">
+              <div className='pointer-events-none select-none absolute inset-0 flex items-center justify-center z-0'>
+              {/* PixelBlast background */}
+              <PixelBlast color="#0f1724" className="absolute inset-0 w-full h-full z-0 pointer-events-none" />
+              </div>
+            <main className="relative max-w-6xl mx-auto mb-10 p-8">
+              
               {/* Hero / Identity Section */}
               <Reveal variant="fade-up">
               <section className="relative mt-12 min-h-[70vh] flex items-center justify-center px-4 md:px-0">
-                {/* PixelBlast background */}
-                <PixelBlast color="#0f1724" className="absolute inset-0 w-full h-full -z-10 pointer-events-none" />
                 {/* Tagline (top-left on large screens) */}
                 <div className="absolute top-0 left-4 md:left-27 max-w-sm space-y-1 md:space-y-2 font-semibold text-base md:text-[25px] leading-snug z-30 text-left heading-3 text-white">
                   <p className="text-white">Web Developer</p>
@@ -46,9 +49,9 @@ const AboutPage = () => {
 
                 {/* Accessible heading for SEO & screen readers */}
                 <h1 className="sr-only">Roy Cruz</h1>
-
+                
                 {/* Layer 1: Filled ROY CRUZ */}
-                <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center z-0">
+                <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center z-10">
                   <div className="relative w-screen md:w-[1000px] max-w-[1200px] aspect-[9/2]">
                     <Image
                       src="/optimized/roy/1-1052.webp"
@@ -62,7 +65,7 @@ const AboutPage = () => {
                 </div>
 
                 {/* Layer 2: Portrait PNG */}
-                <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center z-10">
+                <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center z-20">
                   <div className="relative w-screen md:w-[760px] max-w-[760px] aspect-[3/4]">
                     <Image
                       src="/me.png"
@@ -75,7 +78,7 @@ const AboutPage = () => {
                   <div className="absolute inset-0" />
                 </div>
                 {/* Layer 3: Outlined ROY CRUZ */}
-                <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center z-20">
+                <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center z-30">
                   <div className="relative w-screen md:w-[1000px] max-w-[1200px] aspect-[9/2]">
                     <Image
                       src="/optimized/roy/2-1052.webp"
@@ -88,7 +91,7 @@ const AboutPage = () => {
                   </div>
                 </div>
                 {/* Description + CTA (bottom-right)*/}
-                <div className="absolute bottom-4 md:bottom-[10px] left-4 md:left-auto md:right-27 max-w-sm text-xs sm:text-sm md:text-xl leading-relaxed space-y-4 md:space-y-6 z-100 text-left">
+                <div className="absolute bottom-4 md:bottom-[10px] left-4 md:left-auto md:right-27 max-w-sm text-xs sm:text-sm md:text-xl leading-relaxed space-y-4 md:space-y-6 z-40 text-left">
                   <SlideToUnlock
                     onComplete={() => router.push('/design')}
                     label="See my works"
