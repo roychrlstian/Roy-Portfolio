@@ -65,6 +65,12 @@ export default function GitHubRepos({ user, limit = 6, showTopics = true, classN
     return () => { aborted = true; };
   }, [user, limit, fields, sortBy, nonce]);
 
+  // Auto-refresh every 10 seconds
+  React.useEffect(() => {
+    const id = setInterval(() => setNonce(n => n + 1), 100000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <div className={className}>
       {loading && <div className="text-sm text-neutral-400">Loading repositories…</div>}
