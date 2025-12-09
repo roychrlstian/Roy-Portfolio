@@ -4,10 +4,12 @@ import Footer from '@/components/ui/footer'
 import Marquee from '@/components/ui/marquee'
 import Reveal from '@/components/ui/reveal'
 import CarouselContainer from '@/components/ui/carousel-container'
-import { sectionConfigs, ringDefaults } from './image'
+import { getSectionConfigs, ringDefaults } from './image'
 import { SmoothCursor } from '@/components/lightswind/smooth-cursor'
 
-const DesignPage = () => {
+const DesignPage = async () => {
+  const sectionConfigs = await getSectionConfigs()
+
   return (
       <div className="min-h-screen bg-[#0f1724] text-white overflow-x-hidden">
         <Navbar />

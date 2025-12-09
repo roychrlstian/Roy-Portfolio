@@ -4,8 +4,8 @@ import Image from 'next/image'
 
 type ProjectCardProps = {
   title: string
-  img: string
-  repo: string
+  img?: string | null
+  repo?: string | null
   color?: string
 }
 
@@ -13,8 +13,15 @@ export default function ProjectCard({ title, img, repo, color = 'from-teal-400/0
   return (
     <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-white/10 bg-[#111a27]">
       <div className="absolute inset-0 select-none">
-        <Image src={img} alt={title} fill className="object-cover" draggable={false} onDragStart={(e) => e.preventDefault()} />
-        <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-30`} />
+        {img ? (
+          <>
+            <Image src={img} alt={title} fill className="object-cover" draggable={false} onDragStart={(e) => e.preventDefault()} />
+            <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-30`} />
+          </>
+        ) : (
+          // If no image, render a subtle background so card still looks intentional
+          <div className="absolute inset-0 bg-gradient-to-br from-[#08121a] to-[#0b1320]" />
+        )}
         {/* solid dark overlay on hover to ensure text/button contrast */}
         <div className="absolute inset-0 bg-[#0f1724] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
@@ -24,9 +31,13 @@ export default function ProjectCard({ title, img, repo, color = 'from-teal-400/0
           <h3 className="text-2xl md:text-3xl font-semibold tracking-wide mb-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">{title}</h3>
 
           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <a href={repo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-sm pointer-events-auto z-20">
-              View Code
-            </a>
+            {repo ? (
+              <a href={repo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-sm pointer-events-auto z-20">
+                View Code
+              </a>
+            ) : (
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/60">No code available</div>
+            )}
           </div>
         </div>
       </div>

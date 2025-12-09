@@ -11,6 +11,18 @@ const nextConfig: NextConfig = {
     // path.resolve(__dirname) resolves to this project's absolute path.
     root: path.resolve(__dirname),
   },
+  // Allow Next/Image to load images from the Supabase storage public URL for this project.
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: process.env.NEXT_PUBLIC_SUPABASE_URL
+          ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
+          : 'qgufibdmpkbuthbsxcel.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -43,12 +43,28 @@ export default function GitHubRepos({ user, limit = 6, showTopics = true, classN
         const cacheValue = cacheBust !== undefined ? cacheBust : nonce;
         const params = new URLSearchParams({ user, per_page: '100', cache_bust: String(cacheValue) });
         if (fields) params.set('fields', fields);
-        const res = await fetch(`/api/github/repos?${params.toString()}`);
-        if (!res.ok) {
-          const txt = await res.text();
-            throw new Error(`Request failed ${res.status}: ${txt.slice(0,120)}`);
+        let data: RepoItem[] = [];
+        // Primary: try server-side proxy
+        try {
+          const res = await fetch(`/api/github/repos?${params.toString()}`);
+          if (!res.ok) {
+            const txt = await res.text();
+            const snippet = txt.startsWith('<!DOCTYPE') ? '[HTML response received]' : txt.slice(0,120);
+            throw new Error(`Request failed ${res.status} (${res.url}): ${snippet}`);
+          }
+          data = await res.json();
+        } catch (proxyErr) {
+          // If proxy fails (404/HTML), fall back to direct GitHub API call from client.
+          // This may be subject to GitHub CORS and rate limits but works as a fallback.
+          console.warn('Proxy fetch failed, attempting direct GitHub fetch', proxyErr);
+          const ghUrl = `https://api.github.com/users/${encodeURIComponent(user)}/repos?per_page=${encodeURIComponent(String(100))}`;
+          const ghRes = await fetch(ghUrl, { headers: { 'Accept': 'application/vnd.github+json', 'User-Agent': 'Roy-Portfolio-App' } });
+          if (!ghRes.ok) {
+            const txt = await ghRes.text();
+            throw new Error(`Direct GitHub fetch failed ${ghRes.status}: ${txt.slice(0,120)}`);
+          }
+          data = await ghRes.json();
         }
-        const data: RepoItem[] = await res.json();
         if (aborted) return;
         let processed = data.slice();
         // Local sort if requested
@@ -67,7 +83,7 @@ export default function GitHubRepos({ user, limit = 6, showTopics = true, classN
     }
     load();
     return () => { aborted = true; };
-  }, [user, limit, fields, sortBy, nonce]);
+  }, [user, limit, fields, sortBy, nonce, cacheBust]);
 
   // Auto-refresh every 10 seconds
   // Auto-refresh disabled: manual Refresh button or Retry will increment `nonce`.

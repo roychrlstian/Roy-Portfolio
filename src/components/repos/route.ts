@@ -103,10 +103,7 @@ export async function GET(req: Request) {
 
     if (!res.ok) {
       const text = await res.text();
-      // If GitHub returned HTML (possible redirect/login/HTML 404), include a hint
-      const contentType = res.headers.get('content-type') || '';
-      const hint = contentType.includes('text/html') ? ' (upstream returned HTML — likely a 404 or proxy issue)' : '';
-      return NextResponse.json({ error: `GitHub responded ${res.status}:${hint} ${text.slice(0, 200)}` }, { status: res.status });
+      return NextResponse.json({ error: `GitHub responded ${res.status}: ${text.slice(0, 200)}` }, { status: 502 });
     }
 
   const data: unknown = await res.json();

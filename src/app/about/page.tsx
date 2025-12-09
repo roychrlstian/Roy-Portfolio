@@ -14,11 +14,29 @@ import { SmoothCursor } from '@/components/lightswind/smooth-cursor';
 import { logos } from './logos';
 import { SlidingLogoMarquee } from '@/components/lightswind/sliding-logo-marquee';
 import GitHubRepos from '@/components/ui/github-repos';
+import { supabaseClient } from '@/lib/supabaseClient'
+
+type SkillRow = { name?: string | null; category?: string | null }
+type ExperienceRow = {
+  id: string
+  company?: string | null
+  role?: string | null
+  date_start?: string | null
+  date_end?: string | null
+  order_index?: number | null
+}
 
 const AboutPage = () => {
   const router = useRouter();
   const [reposKey, setReposKey] = React.useState(0);
   const [reposDisabled, setReposDisabled] = React.useState(false);
+  const [devSkills, setDevSkills] = React.useState<string[]>([])
+  const [designSkills, setDesignSkills] = React.useState<string[]>([])
+  const [skillsLoading, setSkillsLoading] = React.useState(true)
+  const [skillsError, setSkillsError] = React.useState<string | null>(null)
+  const [experiences, setExperiences] = React.useState<ExperienceRow[]>([])
+  const [experiencesLoading, setExperiencesLoading] = React.useState(true)
+  const [experiencesError, setExperiencesError] = React.useState<string | null>(null)
 
   function handleRefresh() {
     if (reposDisabled) return;
@@ -27,6 +45,70 @@ const AboutPage = () => {
     // cooldown 10 seconds to prevent spamming
     setTimeout(() => setReposDisabled(false), 10000);
   }
+
+  React.useEffect(() => {
+    let mounted = true
+    async function loadSkills() {
+      try {
+        setSkillsLoading(true)
+        const { data, error } = await supabaseClient
+          .from('skills')
+          .select('name, category')
+          .order('name', { ascending: true })
+
+        if (error) throw error
+        if (!mounted) return
+        const rows = (data as SkillRow[] | null) ?? []
+        const dev: string[] = []
+        const design: string[] = []
+        for (const row of rows) {
+          const name = (row.name ?? '').toString()
+          const cat = (row.category ?? '').toString().toLowerCase()
+          if (cat === 'dev' || cat === 'development') dev.push(name)
+          else if (cat === 'design') design.push(name)
+        }
+        setDevSkills(dev)
+        setDesignSkills(design)
+        setSkillsError(null)
+      } catch (err: unknown) {
+        console.error('Failed to load skills from Supabase', err)
+        const msg = err instanceof Error ? err.message : String(err)
+        setSkillsError(msg)
+      } finally {
+        if (mounted) setSkillsLoading(false)
+      }
+    }
+
+    loadSkills()
+    return () => { mounted = false }
+  }, [])
+
+  React.useEffect(() => {
+    let mounted = true
+    async function loadExperience() {
+      try {
+        setExperiencesLoading(true)
+        const { data, error } = await supabaseClient
+          .from('experience')
+          .select('id, company, role, date_start, date_end, order_index')
+          .order('order_index', { ascending: true })
+
+        if (error) throw error
+        if (!mounted) return
+        setExperiences((data as ExperienceRow[]) ?? [])
+        setExperiencesError(null)
+      } catch (err: unknown) {
+        console.error('Failed to load experience from Supabase', err)
+        const msg = err instanceof Error ? err.message : String(err)
+        setExperiencesError(msg)
+      } finally {
+        if (mounted) setExperiencesLoading(false)
+      }
+    }
+
+    loadExperience()
+    return () => { mounted = false }
+  }, [])
   return (
           <div className="min-h-screen page-bg text-white">
             <Navbar />
@@ -154,31 +236,31 @@ const AboutPage = () => {
                   {/* Development & Programming */}
                   <div className="flex-1 max-w-3xl">
                     <h3 className="heading-3 mb-6">Development &amp; Programming</h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-10 text-lg md:text-xl">
-                      <ul className="space-y-2 list-disc list-inside font-light">
-                        <li>Java</li>
-                        <li>JavaScript</li>
-                        <li>Python</li>
-                      </ul>
-                      <ul className="space-y-2 list-disc list-inside font-light">
-                        <li>C#</li>
-                        <li>SQL</li>
-                        <li>Git</li>
-                      </ul>
-                      <ul className="space-y-2 list-disc list-inside font-light">
-                        <li>React</li>
-                        <li>HTML</li>
-                        <li>CSS</li>
-                      </ul>
-                    </div>
+                    <ul className="columns-3 gap-6 list-disc list-inside font-light text-lg md:text-xl space-y-2">
+                      {skillsLoading ? (
+                        <li className="col-span-3 text-sm text-white/70">Loading skills…</li>
+                      ) : skillsError ? (
+                        <li className="col-span-3 text-sm text-rose-400">Failed to load skills</li>
+                      ) : devSkills.length === 0 ? (
+                        <li className="col-span-3 text-sm text-white/60">No development skills found</li>
+                      ) : (
+                        devSkills.map((s) => <li key={s}>{s}</li>)
+                      )}
+                    </ul>
                   </div>
                   {/* Design & Creative Tools */}
                   <div className="flex-1 md:max-w-sm">
                     <h3 className="heading-3 mb-6">Design &amp; Creative Tools</h3>
                     <ul className="space-y-2 list-disc list-inside text-lg md:text-xl font-light">
-                      <li>Krita</li>
-                      <li>Photoshop</li>
-                      <li>Canva</li>
+                      {skillsLoading ? (
+                        <li className="text-sm text-white/70">Loading…</li>
+                      ) : skillsError ? (
+                        <li className="text-sm text-rose-400">Failed to load</li>
+                      ) : designSkills.length === 0 ? (
+                        <li className="text-sm text-white/60">No design skills found</li>
+                      ) : (
+                        designSkills.map((s) => <li key={s}>{s}</li>)
+                      )}
                     </ul>
                   </div>
                 </div>
@@ -188,19 +270,23 @@ const AboutPage = () => {
                   <span className="text-white/70 mr-2">02</span> Work experience
                 </h2>
                 <div className="flex flex-col gap-6">
-                  {/* Single experience row */}
-                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-4 md:gap-8 text-lg md:text-xl font-light">
-                    <span className="md:w-[20%] font-medium">Freelance</span>
-                    <span className="md:w-[30%] md:pl-4 md:text-left">Graphics Designer</span>
-                    <span className="md:w-[10%] md:text-center">2024</span>
-                    <span className="md:w-[10%] md:text-right">Present</span>
-                  </div>
-                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-4 md:gap-8 text-lg md:text-xl font-light">
-                    <span className="md:w-[20%] font-medium">Journalist</span>
-                    <span className="md:w-[30%] md:pl-4 md:text-left">Graphics Designer</span>
-                    <span className="md:w-[10%] md:text-center">0000</span>
-                    <span className="md:w-[10%] md:text-right">0000</span>
-                  </div>
+                  {experiencesLoading ? (
+                    <div className="text-white/70">Loading experience…</div>
+                  ) : experiencesError ? (
+                    <div className="text-rose-400">Failed to load experience</div>
+                  ) : experiences.length === 0 ? (
+                    <div className="text-white/60">No experience found</div>
+                  ) : (
+                    experiences.map((exp: ExperienceRow) => (
+                      <div key={exp.id} className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-4 md:gap-8 text-lg md:text-xl font-light">
+                        <span className="md:w-[20%] font-medium">{exp.company}</span>
+                        <span className="md:w-[30%] md:pl-4 md:text-left">{exp.role}</span>
+                        <span className="md:w-[10%] md:text-center">{exp.date_start}</span>
+                        <span className="md:w-[10%] md:text-center">-</span>
+                        <span className="md:w-[10%] md:text-right">{exp.date_end ?? 'Present'}</span>
+                      </div>
+                    ))
+                  )}
                 </div>
                 <hr className="my-10 border-white/20" />
                 {/* 03 Public Repositories */}
