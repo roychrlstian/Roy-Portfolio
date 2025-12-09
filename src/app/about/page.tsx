@@ -147,7 +147,7 @@ const AboutPage = () => {
             <Reveal variant="fade-up">
               <section className="max-w-6xl mx-auto px-8 mt-14 mb-20">
                 {/* 01 Software Skills */}
-                <h2 className="heading-2 mb-8 gradient-text">
+                <h2 className="heading-2 mb-8">
                   <span className="text-white/70 mr-2">01</span> Software skills
                 </h2>
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-12 md:gap-20">
@@ -184,7 +184,7 @@ const AboutPage = () => {
                 </div>
                 <hr className="my-10 border-white/20" />
                 {/* 02 Work Experience */}
-                <h2 className="heading-2 mb-10 gradient-text">
+                <h2 className="heading-2 mb-10">
                   <span className="text-white/70 mr-2">02</span> Work experience
                 </h2>
                 <div className="flex flex-col gap-6">
@@ -204,7 +204,7 @@ const AboutPage = () => {
                 </div>
                 <hr className="my-10 border-white/20" />
                 {/* 03 Public Repositories */}
-                <h2 className="heading-2 mb-6 gradient-text">
+                <h2 className="heading-2 mb-6">
                   <span className="text-white/70 mr-2">03</span> Public repositories
                 </h2>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-3">
