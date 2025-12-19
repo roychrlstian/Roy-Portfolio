@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Portfolio (Next.js + Supabase)
 
-## Getting Started
+This repository contains a personal portfolio site built with Next.js (App Router), TypeScript, React and Supabase for content storage and authentication. The project includes an admin UI for managing Skills, Experience, Projects, and Design assets (images stored in Supabase Storage).
 
-First, run the development server:
+If you want me to tailor this README further (more infra steps, SQL snippets, or CI), tell me which section and I will expand it.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Table of contents
+
+- Overview
+- Tech stack
+- Local setup
+- Environment variables
+- Supabase setup (tables + storage)
+- Admin / auth flow
+- Server API endpoints
+- Image upload & storage conventions
+- Build & deploy
+- Troubleshooting
+- Next steps
+
+## Overview
+
+The site is a Next.js App Router application. Content is read from Supabase (client for public reads, server service-role client for admin writes & storage uploads). The admin UI (at `/admin`) allows authenticated users to CRUD Skills, Experience, Projects, and manage design asset images located in the `design-assets` bucket.
+
+Key implementation choices
+
+- R/W separation: browser uses an anon Supabase client for reads; privileged writes and storage operations are handled by server API routes that use the `SUPABASE_SERVICE_ROLE_KEY`.
+- Server-side admin guard: the admin layout checks an HttpOnly cookie set after login so unauthenticated requests are redirected to `/login` server-side (prevents indexing).
+
+## Tech stack
+
+- Next.js 15 (App Router)
+- React + TypeScript
+- Supabase (Postgres + Auth + Storage)
+- Tailwind CSS for styling
+
+## Local setup
+
+Prereqs
+
+- Node.js 18+ (use the version in `package.json` if provided)
+- npm (or pnpm/yarn)
+- A Supabase project (you'll need the project URL and keys)
+
+Clone and install
+
+```powershell
+git clone <repo-url>
+cd my-portfolio
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env.local` file in the project root with these values:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```text
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key # server-only, keep secret
+```
 
-## Learn More
+Do NOT commit `SUPABASE_SERVICE_ROLE_KEY` to source control.
 
-To learn more about Next.js, take a look at the following resources:
+Run dev server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```powershell
+npm run dev
+# open http://localhost:3000
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Build for production
 
-## Deploy on Vercel
+```powershell
+npm run build
+npm run start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Supabase setup
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Tables (suggested)
+
+- `skills` — `id` (uuid pk), `name` (text), `category` (text), `created_at`
+- `experience` — `id`, `company`, `role`, `date_start`, `date_end`, `order_index`, `created_at`
+- `projects` — `id`, `title`, `image_url` (text), `github_url` (text), `is_published` (boolean), `order_index` (int), `created_at`
+
+Storage buckets
+
+- `design-assets` — prefix-based folders:
+  - `triad/announcement/`
+  - `triad/event/`
+  - `lcup/`
+  - `freelance/logo/`
+  - `freelance/banner/`
+
+Project images in the repo are uploaded to `design-assets/project` by default. If you'd prefer a different bucket or prefix, update `src/app/api/admin/upload/route.ts`.
+
+Row-Level Security
+
+This project expects server-side admin endpoints to perform writes (so you can safely enable RLS on tables). The server endpoints validate a bearer token sent from the client and then use the service-role client for mutations.
+
+## Admin / auth flow
+
+- Login page: `/login` — uses `supabaseClient.auth.signInWithPassword`. After successful login the client posts the session access token to `/api/admin/session` which sets an HttpOnly cookie `sb_admin_token`.
+
+Protection
+
+- Server: `src/app/admin/layout.tsx` is a server component that reads the `sb_admin_token` cookie, validates it with Supabase. If missing/invalid the request is redirected to `/login` (this prevents indexing and unauthenticated access at the HTML level).
+- Client: `src/app/admin/page.tsx` additionally checks client-side session for UX, but the server-side layout is authoritative.
+
+Sign-out: the server session cookie can be cleared by `DELETE /api/admin/session`. Ensure your `SignOutButton` calls this route to fully sign out.
+
+## Server API endpoints (admin)
+
+All admin endpoints live under `/api/admin` and validate the incoming bearer token before performing writes with the service-role client.
+
+- `/api/admin/skills` — GET/POST/PATCH/DELETE
+- `/api/admin/experience` — GET/POST/PATCH/DELETE
+- `/api/admin/projects` — GET/POST/PATCH/DELETE (store `image_url` as text)
+- `/api/admin/upload` — POST (single file) — used for project image uploads; returns a public URL
+- `/api/admin/design` — GET (list by prefix), POST (upload to prefix), DELETE (remove by path)
+- `/api/admin/session` — POST (set HttpOnly cookie), DELETE (clear it)
+
+See `src/app/api/admin/*` for the server implementations.
+
+## Image upload & storage conventions
+
+- Project image upload: admin UI uploads the file to `/api/admin/upload` (server stores file and returns public URL), then the client stores the URL in `projects.image_url`.
+- Design assets: managed under `design-assets/<prefix>`; admin UI lists/uploads/deletes via `/api/admin/design`.
+- Filenames include a timestamp prefix to avoid collisions: `<timestamp>_<original_name>`.
+
+## Build & deploy
+
+Vercel
+
+1. Create a Vercel project and connect the repository.
+2. Add required environment variables in the Vercel dashboard (see `.env.local` above). Mark `SUPABASE_SERVICE_ROLE_KEY` as a secret.
+
+Other hosts
+
+Make sure the environment variables are available at runtime and that the host supports Next.js App Router server components.
+
+## Troubleshooting
+
+- "Permission denied" on client writes — enable RLS and use the server admin endpoints. Ensure the client sends the bearer token in Authorization header and server validates it.
+- Uploads failing or not visible — confirm bucket/prefix names, public access or that you request a signed URL. Server returns public URL with `supabase.storage.from(bucket).getPublicUrl(path)`.
+- Admin still indexable — ensure the server layout `src/app/admin/layout.tsx` exists and your login flow sets the `sb_admin_token` cookie. Crawlers will still see pages if you accidentally serve admin HTML without the layout check.
