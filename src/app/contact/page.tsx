@@ -51,18 +51,6 @@ const ContactPage = () => {
       <main className="flex-1 pb-20">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
 
-          <Reveal variant="fade-in">
-            <Marquee
-              speed={20}
-              className="pt-30 pb-20 mx-[calc(50%-50vw)] w-screen px-8 mb-6"
-              textClass="text-3xl md:text-7xl font-bold"
-            >
-              <span className="mx-4">Get In Touch!</span>
-              <span className="mx-4">Get In Touch!</span>
-              <span className="mx-4">Get In Touch!</span>
-            </Marquee>
-          </Reveal>
-
           <div className="relative md:flex md:items-start md:gap-20 lg:gap-24">
 
             {/* Left Intro */}
@@ -172,6 +160,18 @@ const ContactPage = () => {
             </div>
           </div>
           
+            <Reveal variant="fade-in">
+              <Marquee
+                speed={20}
+                className="pt-30 pb-20 mx-[calc(50%-50vw)] w-screen px-8 mb-6"
+                textClass="text-3xl md:text-7xl font-bold"
+              >
+                <span className="mx-4">Get In Touch!</span>
+                <span className="mx-4">Get In Touch!</span>
+                <span className="mx-4">Get In Touch!</span>
+              </Marquee>
+            </Reveal>
+
         </div>
       </main>
       <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/> 
