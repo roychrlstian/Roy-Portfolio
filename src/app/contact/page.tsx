@@ -1,5 +1,6 @@
 "use client";
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
+import emailjs from '@emailjs/browser';
 import Navbar from '../../components/ui/navbar'
 import Footer from '@/components/ui/footer'
 import Link from 'next/link'
@@ -36,35 +37,43 @@ const ContactPage = () => {
   const [justCleared, setJustCleared] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Initialize EmailJS on mount
+  useEffect(() => {
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+    if (publicKey) {
+      emailjs.init(publicKey);
+    } else {
+      console.warn('NEXT_PUBLIC_EMAILJS_PUBLIC_KEY is not configured');
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const formData = {
+
+    const templateParams = {
       name: (form.elements.namedItem('name') as HTMLInputElement)?.value,
       email: (form.elements.namedItem('email') as HTMLInputElement)?.value,
       topic: (form.elements.namedItem('topic') as HTMLSelectElement)?.value,
       message: (form.elements.namedItem('message') as HTMLTextAreaElement)?.value,
+      time: new Date().toLocaleString(),
     };
 
     setIsSubmitting(true);
     try {
-      const res = await fetch('/api/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err?.error || 'Failed to send message');
-      }
+      await emailjs.send(
+        'service_fpu5tab',
+        'template_s8wic18',
+        templateParams
+      );
 
       form.reset();
       setJustCleared(true);
       setTimeout(() => setJustCleared(false), 2000);
     } catch (error) {
-      console.error(error);
-      alert('Sorry, something went wrong sending your message. Please try again later.');
+      const msg = error instanceof Error ? error.message : String(error);
+      console.error('EmailJS error:', msg);
+      alert(`Sorry, something went wrong: ${msg}`);
     } finally {
       setIsSubmitting(false);
     }

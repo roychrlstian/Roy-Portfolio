@@ -58,6 +58,8 @@ Create a `.env.local` file in the project root with these values:
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key # server-only, keep secret
+EMAILJS_PUBLIC_KEY=your-emailjs-public-key     # required by EmailJS REST
+EMAILJS_PRIVATE_KEY=your-emailjs-private-key   # server-only, keep secret
 ```
 
 Do NOT commit `SUPABASE_SERVICE_ROLE_KEY` to source control.
@@ -123,6 +125,52 @@ All admin endpoints live under `/api/admin` and validate the incoming bearer tok
 
 See `src/app/api/admin/*` for the server implementations.
 
+## Contact & EmailJS
+
+The contact page submits messages to a server-side route that relays them to EmailJS. This keeps the EmailJS private key off the client and out of the bundle.
+
+Server route
+
+- `POST /api/email` — forwards the form payload to EmailJS (`service_fpu5tab`, `template_s8wic18`) using the `EMAILJS_PRIVATE_KEY` from environment.
+
+Environment
+
+- Set `EMAILJS_PRIVATE_KEY` in `.env.local` and in your hosting provider's environment settings.
+
+Payload shape
+
+```json
+{
+  "name": "Your Name",
+  "email": "you@example.com",
+  "topic": "Web Development",
+  "message": "Hello from the portfolio contact form!"
+}
+```
+
+Template params
+
+- The server maps form values to EmailJS `template_params` as:
+  - `name`, `email`, `topic`, `message`, and `time` (server timestamp via `new Date().toLocaleString()`).
+
+Testing locally
+
+```powershell
+curl -X POST http://localhost:3000/api/email \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name":"Test User",
+    "email":"test@example.com",
+    "topic":"General Inquiry",
+    "message":"This is a test message"
+  }'
+```
+
+Notes
+
+- The EmailJS service and template IDs are configured in the server route. If you change them, update `src/app/api/email/route.ts` accordingly.
+- Errors from EmailJS are returned as JSON with a 502 status to the client; the contact page shows a friendly alert on failure and a brief "CLEARED" state on success.
+
 ## Image upload & storage conventions
 
 - Project image upload: admin UI uploads the file to `/api/admin/upload` (server stores file and returns public URL), then the client stores the URL in `projects.image_url`.
@@ -145,3 +193,4 @@ Make sure the environment variables are available at runtime and that the host s
 - "Permission denied" on client writes — enable RLS and use the server admin endpoints. Ensure the client sends the bearer token in Authorization header and server validates it.
 - Uploads failing or not visible — confirm bucket/prefix names, public access or that you request a signed URL. Server returns public URL with `supabase.storage.from(bucket).getPublicUrl(path)`.
 - Admin still indexable — ensure the server layout `src/app/admin/layout.tsx` exists and your login flow sets the `sb_admin_token` cookie. Crawlers will still see pages if you accidentally serve admin HTML without the layout check.
+- Email not sending — verify `EMAILJS_PRIVATE_KEY` is set on the server, service/template IDs are correct, and outbound requests to `https://api.emailjs.com/api/v1.0/email/send` are allowed by your host.

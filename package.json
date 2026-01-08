@@ -10,8 +10,10 @@
     "optimize-images": "node scripts/optimize-images.js"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@supabase/auth-helpers-nextjs": "^0.15.0",
     "@supabase/supabase-js": "^2.87.1",
+    "emailjs-com": "^3.2.0",
     "framer-motion": "^12.23.25",
     "lightswind": "^3.1.20",
     "lucide-react": "^0.544.0",
