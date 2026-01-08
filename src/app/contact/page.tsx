@@ -34,14 +34,40 @@ const SOCIAL_LINKS = [
 const ContactPage = () => {
   const formRef = useRef<HTMLFormElement | null>(null);
   const [justCleared, setJustCleared] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // (Future: send data via fetch here)
-    e.currentTarget.reset();
-    setJustCleared(true);
-    // remove flag after a short delay
-    setTimeout(() => setJustCleared(false), 2000);
+    const form = e.currentTarget;
+    const formData = {
+      name: (form.elements.namedItem('name') as HTMLInputElement)?.value,
+      email: (form.elements.namedItem('email') as HTMLInputElement)?.value,
+      topic: (form.elements.namedItem('topic') as HTMLSelectElement)?.value,
+      message: (form.elements.namedItem('message') as HTMLTextAreaElement)?.value,
+    };
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.error || 'Failed to send message');
+      }
+
+      form.reset();
+      setJustCleared(true);
+      setTimeout(() => setJustCleared(false), 2000);
+    } catch (error) {
+      console.error(error);
+      alert('Sorry, something went wrong sending your message. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <div className="min-h-screen bg-[#0f1724] text-white flex flex-col">
@@ -49,12 +75,12 @@ const ContactPage = () => {
       <Navbar />
 
       <main className="flex-1 pb-20">
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 pt-25">
 
           <div className="relative md:flex md:items-start md:gap-20 lg:gap-24">
 
             {/* Left Intro */}
-            <div className="md:w-1/2 pr-0 md:pr-10 space-y-12">
+            <div className="md:w-1/2 pr-0 md:pr-10 space-y-5">
               <p className="text-3xl md:text-4xl lg:text-[44px] font-semibold leading-tight tracking-tight max-w-[560px]">
                 Have a project in mind or just want to say hello? Feel free to reach out. I&apos;m always open to discussing new ideas, collaborations, or opportunities to create something impactful together.
               </p>
@@ -142,10 +168,10 @@ const ContactPage = () => {
                   <button
                     type="submit"
                     className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/40 hover:border-white px-14 h-14 text-sm tracking-wide font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={justCleared}
+                    disabled={justCleared || isSubmitting}
                   >
-                    <span>{justCleared ? 'CLEARED' : 'LET\'S TALK'}</span>
-                    {!justCleared && (
+                    <span>{justCleared ? 'CLEARED' : (isSubmitting ? 'SENDING...' : 'LET\'S TALK')}</span>
+                    {!justCleared && !isSubmitting && (
                       <span
                         className="inline-block transition-transform duration-300 group-hover:translate-x-1"
                         aria-hidden="true"
@@ -163,7 +189,7 @@ const ContactPage = () => {
             <Reveal variant="fade-in">
               <Marquee
                 speed={20}
-                className="pt-30 pb-20 mx-[calc(50%-50vw)] w-screen px-8 mb-6"
+                className="pt-30 mx-[calc(50%-50vw)] w-screen px-8"
                 textClass="text-3xl md:text-7xl font-bold"
               >
                 <span className="mx-4">Get In Touch!</span>
