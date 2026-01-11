@@ -18,7 +18,6 @@ type ProjectRow = {
 }
 
 const ProjectPage = async () => {
-  // Fetch published projects server-side so they render statically and are SEO-friendly
   let projects: ProjectRow[] = []
   let fetchError: string | null = null
 
@@ -29,10 +28,13 @@ const ProjectPage = async () => {
       .eq('is_published', true)
       .order('order_index', { ascending: true })
 
-    if (error) throw error
+    if (error) {
+      console.error('Supabase error:', error)
+      throw error
+    }
     projects = (data as ProjectRow[]) ?? []
   } catch (err: unknown) {
-    console.error('Failed to load projects from Supabase', err)
+    console.error('Failed to load projects:', err)
     fetchError = err instanceof Error ? err.message : String(err)
   }
 
