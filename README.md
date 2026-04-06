@@ -60,6 +60,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key # server-only, keep secret
 EMAILJS_PUBLIC_KEY=your-emailjs-public-key     # required by EmailJS REST
 EMAILJS_PRIVATE_KEY=your-emailjs-private-key   # server-only, keep secret
+CRON_SECRET=your-long-random-secret            # optional, protects the daily ping route
+SUPABASE_PING_TABLE=skills                     # optional, table used by the ping route
 ```
 
 Do NOT commit `SUPABASE_SERVICE_ROLE_KEY` to source control.
@@ -124,6 +126,28 @@ All admin endpoints live under `/api/admin` and validate the incoming bearer tok
 - `/api/admin/session` — POST (set HttpOnly cookie), DELETE (clear it)
 
 See `src/app/api/admin/*` for the server implementations.
+
+## Daily Supabase ping
+
+If you want to keep the Supabase project active with a lightweight daily query, use the cron route:
+
+- `GET /api/cron/supabase-ping` — performs a minimal read against the table named by `SUPABASE_PING_TABLE` and returns `{ ok: true }` on success.
+
+Security
+
+- If `CRON_SECRET` is set, the route requires the same value in `x-cron-secret`, a Bearer token, or a `?secret=` query param.
+- If `CRON_SECRET` is not set, the route is open.
+
+Example call
+
+```bash
+curl -H "x-cron-secret: $CRON_SECRET" https://your-domain.com/api/cron/supabase-ping
+```
+
+Suggested scheduling
+
+- Vercel Cron, GitHub Actions, or any external scheduler can call this route once a day.
+- The default table is `skills`; if you want a different table, set `SUPABASE_PING_TABLE`.
 
 ## Contact & EmailJS
 

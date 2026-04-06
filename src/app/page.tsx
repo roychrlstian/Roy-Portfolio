@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import SmokeyCursor from "../components/lightswind/smokey-cursor";
-import { SmoothCursor } from "@/components/lightswind/smooth-cursor";
 
 export default function Home() {
   return (
@@ -10,7 +9,6 @@ export default function Home() {
         <span className="label-normal">NEXT</span>
         <span className="label-hover">&gt;&gt;&gt;&gt;</span>
       </Link>
-      <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/>
       <SmokeyCursor/>
     </div>
   );

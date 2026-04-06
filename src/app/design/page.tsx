@@ -5,7 +5,6 @@ import Marquee from '@/components/ui/marquee'
 import Reveal from '@/components/ui/reveal'
 import CarouselContainer from '@/components/ui/carousel-container'
 import { getSectionConfigs, ringDefaults } from './image'
-import { SmoothCursor } from '@/components/lightswind/smooth-cursor'
 
 const DesignPage = async () => {
   const sectionConfigs = await getSectionConfigs()
@@ -112,7 +111,6 @@ const DesignPage = async () => {
           {/*Freelance ends*/}
           </main>
         </div>
-        <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/>
         <Footer />
       </div>
     )

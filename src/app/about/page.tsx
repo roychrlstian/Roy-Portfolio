@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation'
 import SlideToUnlock from '@/components/ui/slide-to-unlock'
 import { ScrollTimeline } from '@/components/lightswind/scroll-timeline'
 import { education } from './education'
-import { SmoothCursor } from '@/components/lightswind/smooth-cursor';
 import { logos } from './logos';
 import { SlidingLogoMarquee } from '@/components/lightswind/sliding-logo-marquee';
 import GitHubRepos from '@/components/ui/github-repos';
@@ -315,7 +314,6 @@ const AboutPage = () => {
               </section>
             </Reveal>
 
-            <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/>
             <Footer/>
           </div>
         )

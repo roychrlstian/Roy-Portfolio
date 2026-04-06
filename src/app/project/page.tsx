@@ -1,7 +1,6 @@
 import React from 'react'
 import Navbar from '../../components/ui/navbar'
 import Footer from '@/components/ui/footer'
-import { SmoothCursor } from '@/components/lightswind/smooth-cursor'
 import Reveal from '@/components/ui/reveal'
 import { logos } from '../about/logos'
 import { SlidingLogoMarquee } from '@/components/lightswind/sliding-logo-marquee'
@@ -88,7 +87,6 @@ const ProjectPage = async () => {
 
         </main>
       </div>
-      <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/>
       <Footer/>
     </div>
   )

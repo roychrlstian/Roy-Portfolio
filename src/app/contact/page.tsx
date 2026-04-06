@@ -6,7 +6,6 @@ import Footer from '@/components/ui/footer'
 import Link from 'next/link'
 import Reveal from '@/components/ui/reveal';
 import Marquee from '@/components/ui/marquee';
-import { SmoothCursor } from '@/components/lightswind/smooth-cursor';
 import { ArrowRight } from 'lucide-react';
 
 // If future client-side validation or submission is needed, convert to client component.
@@ -209,7 +208,6 @@ const ContactPage = () => {
 
         </div>
       </main>
-      <SmoothCursor size={30} color={"#0f1724"} rotateOnMove={true} scaleOnClick={true} glowEffect={true}/> 
       <Footer />
     </div>
   )
