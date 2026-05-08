@@ -144,10 +144,10 @@ const AboutPage = () => {
                     />
                   </div>
                 </div>
-
+                  
                 {/* Layer 2: Portrait PNG */}
                 <div className="pointer-events-none select-none absolute inset-0 flex items-center justify-center z-20">
-                  <div className="relative w-screen md:w-[760px] max-w-[760px] aspect-[3/4]">
+                  <div className="relative w-[clamp(340px,70vw,980px)] aspect-[3/4]">
                     <Image
                       src="/me.png"
                       alt="Portrait of Roy Cruz"
@@ -155,6 +155,7 @@ const AboutPage = () => {
                       priority
                       className="object-contain object-center"
                     />
+
                   </div>
                   <div className="absolute inset-0" />
                 </div>
@@ -180,6 +181,8 @@ const AboutPage = () => {
                     className="md:ml-auto"
                   />
                 </div>
+
+
               </section>
               </Reveal>
               
