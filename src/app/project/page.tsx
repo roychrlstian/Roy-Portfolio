@@ -42,6 +42,7 @@ type ProjectRow = {
   title: string
   image_url: string | null
   github_url: string | null
+  live_url: string | null
   is_published: boolean
   order_index: number | null
 }
@@ -53,7 +54,7 @@ const ProjectPage = async () => {
   try {
     const { data, error } = await supabaseServer
       .from('projects')
-      .select('id, title, image_url, github_url, is_published, order_index')
+      .select('id, title, image_url, github_url, live_url:"url-live", is_published, order_index')
       .eq('is_published', true)
       .order('order_index', { ascending: true })
 
@@ -102,6 +103,7 @@ const ProjectPage = async () => {
                   title={p.title}
                   img={p.safeImageUrl ?? undefined}
                   repo={p.github_url ?? undefined}
+                  liveUrl={p.live_url ?? undefined}
                   color={undefined}
                 />
               ))

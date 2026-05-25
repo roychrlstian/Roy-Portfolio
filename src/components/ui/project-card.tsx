@@ -6,10 +6,11 @@ type ProjectCardProps = {
   title: string
   img?: string | null
   repo?: string | null
+  liveUrl?: string | null
   color?: string
 }
 
-export default function ProjectCard({ title, img, repo, color = 'from-teal-400/0 to-teal-300/10' }: ProjectCardProps) {
+export default function ProjectCard({ title, img, repo, liveUrl, color = 'from-teal-400/0 to-teal-300/10' }: ProjectCardProps) {
   return (
     <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-white/10 bg-[#111a27]">
       <div className="absolute inset-0 select-none">
@@ -30,9 +31,15 @@ export default function ProjectCard({ title, img, repo, color = 'from-teal-400/0
         <div className="space-y-4">
           <h3 className="text-2xl md:text-3xl font-semibold tracking-wide mb-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">{title}</h3>
 
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 space-y-3">
+            {liveUrl ? (
+              <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-cyan-400/15 hover:bg-cyan-400/25 border border-cyan-300/20 text-sm text-cyan-50 pointer-events-auto z-20">
+                View Live
+              </a>
+            ) : null}
+
             {repo ? (
-              <a href={repo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-sm pointer-events-auto z-20">
+              <a href={repo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-sm pointer-events-auto z-20">
                 View Code
               </a>
             ) : (
