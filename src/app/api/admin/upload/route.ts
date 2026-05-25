@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
     if (!fileUnk || !(fileUnk instanceof File)) return NextResponse.json({ error: 'Missing file' }, { status: 400 })
     const file = fileUnk as File
 
-    const bucket = 'design-assets/project'
-    const fileName = `${Date.now()}_${(file.name ?? 'upload').toString().replace(/\s+/g, '_')}`
+    const bucket = 'design-assets'
+    const fileName = `project/${Date.now()}_${(file.name ?? 'upload').toString().replace(/\s+/g, '_')}`
 
     // Node/Edge File -> Buffer
     const arrayBuffer = await file.arrayBuffer()
@@ -41,8 +41,8 @@ export async function POST(req: NextRequest) {
     if (error) return NextResponse.json({ error: error.message ?? error }, { status: 500 })
 
   // get public url
-  const urlData = supabaseServer.storage.from(bucket).getPublicUrl(fileName).data
-  const publicUrl = urlData?.publicUrl ?? null
+    const urlData = supabaseServer.storage.from(bucket).getPublicUrl(fileName).data
+    const publicUrl = urlData?.publicUrl ?? null
     if (!publicUrl) return NextResponse.json({ error: 'Failed to get public URL' }, { status: 500 })
 
     return NextResponse.json({ publicUrl })

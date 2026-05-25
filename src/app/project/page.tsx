@@ -7,6 +7,36 @@ import { SlidingLogoMarquee } from '@/components/lightswind/sliding-logo-marquee
 import ProjectCard from '@/components/ui/project-card'
 import { supabaseServer } from '@/lib/supabaseServer'
 
+const SUPABASE_STORAGE_PUBLIC_IMAGE = /^https:\/\/[^/]*supabase\.co\/storage\/v1\/object\/public\//i
+const PROJECT_IMAGE_FALLBACKS: Record<string, string> = {
+  'traid.webp': '/optimized/project/triad.webp',
+  'triad.webp': '/optimized/project/triad.webp',
+  'scholarblock.webp': '/optimized/project/scholarblock.webp',
+  'minimal_chat.webp': '/optimized/project/minimal_chat.webp',
+}
+
+function getFallbackProjectImageUrl(imageUrl: string) {
+  const fileName = imageUrl.split('/').pop()
+  return fileName ? (PROJECT_IMAGE_FALLBACKS[fileName] ?? null) : null
+}
+
+async function getSafeProjectImageUrl(imageUrl: string | null) {
+  if (!imageUrl) return null
+  if (!SUPABASE_STORAGE_PUBLIC_IMAGE.test(imageUrl)) return imageUrl
+
+  try {
+    const response = await fetch(imageUrl, { method: 'HEAD', cache: 'no-store' })
+    if (!response.ok) return getFallbackProjectImageUrl(imageUrl)
+
+    const contentType = response.headers.get('content-type') ?? ''
+    if (contentType && !contentType.startsWith('image/')) return getFallbackProjectImageUrl(imageUrl)
+
+    return imageUrl
+  } catch {
+    return getFallbackProjectImageUrl(imageUrl)
+  }
+}
+
 type ProjectRow = {
   id: string
   title: string
@@ -37,6 +67,13 @@ const ProjectPage = async () => {
     fetchError = err instanceof Error ? err.message : String(err)
   }
 
+  const projectsWithImages = await Promise.all(
+    projects.map(async (project) => ({
+      ...project,
+      safeImageUrl: await getSafeProjectImageUrl(project.image_url),
+    })),
+  )
+
   return (
     <div className="min-h-screen bg-[#0f1724] text-white">
       <Navbar />
@@ -59,11 +96,11 @@ const ProjectPage = async () => {
             ) : projects.length === 0 ? (
               <div className="text-white/60">No projects found</div>
             ) : (
-              projects.map((p) => (
+              projectsWithImages.map((p) => (
                 <ProjectCard
                   key={p.id}
                   title={p.title}
-                  img={p.image_url ?? undefined}
+                  img={p.safeImageUrl ?? undefined}
                   repo={p.github_url ?? undefined}
                   color={undefined}
                 />
